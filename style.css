@@ -9,10 +9,10 @@
                 radial-gradient(circle at 82% 85%, rgba(37, 99, 235, 0.1), transparent 42%);
   --surface-bg: rgba(17, 24, 39, 0.86);
   --surface-elevated: rgba(30, 41, 59, 0.65);
-  --glass-bar-bg: rgba(11, 17, 30, 0.82);
+  --glass-bar-bg: rgba(11, 17, 30, 0.84);
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-focus: rgba(59, 130, 246, 0.65);
-  --input-bg: rgba(9, 13, 24, 0.85);
+  --input-bg: rgba(9, 13, 24, 0.88);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
@@ -35,8 +35,8 @@
   --bg-ambient: radial-gradient(circle at 18% 12%, rgba(59, 130, 246, 0.08), transparent 38%),
                 radial-gradient(circle at 82% 85%, rgba(14, 165, 233, 0.06), transparent 42%);
   --surface-bg: rgba(255, 255, 255, 0.94);
-  --surface-elevated: rgba(241, 245, 249, 0.9);
-  --glass-bar-bg: rgba(255, 255, 255, 0.86);
+  --surface-elevated: rgba(241, 245, 249, 0.92);
+  --glass-bar-bg: rgba(255, 255, 255, 0.88);
   --border-subtle: rgba(15, 23, 42, 0.08);
   --border-focus: rgba(37, 99, 235, 0.6);
   --input-bg: #f8fafc;
@@ -85,7 +85,6 @@ body {
   padding: 0 16px;
 }
 
-/* أسطح One UI 9 الزجاجية والصلبة الناعمة */
 .oneui-surface {
   background: var(--surface-bg);
   backdrop-filter: blur(20px);
@@ -201,7 +200,7 @@ body {
   font-weight: 700;
 }
 
-/* ==================== 2. الترويسة العلوية النقية (بدون تداخل أو قص) ==================== */
+/* ==================== 2. الترويسة العلوية النقية ==================== */
 .admin-header {
   position: sticky;
   top: 0;
@@ -334,7 +333,6 @@ body {
   color: var(--danger);
 }
 
-/* شريط التبويبات الكبسولي */
 .admin-tabs-bar {
   border-top: 1px solid var(--border-subtle);
   padding: 8px 0;
@@ -398,7 +396,7 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 14px;
   margin-bottom: 20px;
 }
@@ -1012,7 +1010,7 @@ details[open] .accordion-arrow {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 28px);
-  max-width: 500px;
+  max-width: 520px;
   height: 64px;
   border-radius: 99px;
   display: flex;
@@ -1043,9 +1041,9 @@ details[open] .accordion-arrow {
 }
 
 .dock-btn:hover,
-.dock-btn:active {
+.dock-btn.active {
   color: var(--accent);
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(59, 130, 246, 0.12);
 }
 
 /* ==================== 8. نافذة معاينة الوثيقة والإشعارات ==================== */
