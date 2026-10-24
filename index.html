@@ -16,19 +16,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0" rel="stylesheet">
 
-  <!-- ملف التصميم الزجاجي لغرفة العمليات -->
+  <!-- ملف التصميم المعماري One UI 9 Glass -->
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
   <!-- =====================================================================
-       1. بوابة المصادقة الأمنية وتأمين الدخول (Login Gate)
+       1. بوابة المصادقة الأمنية وتأمين الدخول (One UI 9 Login Gate)
        ===================================================================== -->
   <section id="auth-screen" class="auth-screen">
-    <div class="auth-card glass-surface">
+    <div class="auth-card oneui-surface">
       <div class="auth-brand-header">
         <img id="auth-logo-img" class="auth-logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="شعار المنصة" style="opacity:0;">
-        <span class="badge-pill">بوابة الإدارة والتحرير المؤمّنة</span>
+        <span class="oneui-chip">بوابة القيادة والتحرير المؤمّنة</span>
         <h1 id="auth-site-title" class="auth-title">غرفة العمليات المركزية</h1>
         <p id="auth-site-subtitle" class="auth-subtitle">شبكة البوصلة الإخبارية — نظام إدارة المحتوى السيادي</p>
       </div>
@@ -43,11 +43,11 @@
       <form id="email-login-form" class="auth-form">
         <div class="form-group">
           <label for="login-email">البريد الإلكتروني الصحفي</label>
-          <input type="email" id="login-email" class="glass-input" placeholder="editor@domain.com" required autocomplete="email">
+          <input type="email" id="login-email" class="oneui-input" placeholder="editor@domain.com" required autocomplete="email">
         </div>
         <div class="form-group">
           <label for="login-password">كلمة المرور</label>
-          <input type="password" id="login-password" class="glass-input" placeholder="••••••••" required autocomplete="current-password">
+          <input type="password" id="login-password" class="oneui-input" placeholder="••••••••" required autocomplete="current-password">
         </div>
         <button type="submit" id="email-login-btn" class="primary-btn full-width">
           <span class="material-symbols-rounded" translate="no">lock_open</span>
@@ -60,14 +60,14 @@
   </section>
 
   <!-- =====================================================================
-       2. الهيكل الرئيسي لغرفة العمليات بعد تسجيل الدخول
+       2. الهيكل الرئيسي لغرفة العمليات بأسلوب Samsung One UI 9
        ===================================================================== -->
   <div id="admin-app-shell" class="admin-shell hidden">
 
-    <!-- الترويسة العلوية -->
-    <header class="admin-header glass-surface">
+    <!-- الترويسة العلوية النقية (One UI Top Bar) بدون تكدس أو قص -->
+    <header class="admin-header oneui-glass-bar">
       <div class="container header-inner">
-        <div class="header-right">
+        <div class="header-identity">
           <img id="header-logo-img" class="brand-logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="شعار" style="opacity:0;">
           <div class="brand-text">
             <div class="brand-title-row">
@@ -78,26 +78,26 @@
           </div>
         </div>
 
-        <div class="header-left">
-          <button type="button" id="quick-new-post-btn" class="primary-btn sm-pill-btn">
+        <div class="header-actions">
+          <button type="button" id="quick-new-post-btn" class="oneui-pill-action">
             <span class="material-symbols-rounded" translate="no">edit_square</span>
-            <span>مادة جديدة</span>
+            <span class="action-text">مادة جديدة</span>
           </button>
-          <button type="button" id="admin-theme-btn" class="icon-btn" title="تبديل المظهر">
+          <button type="button" id="admin-theme-btn" class="icon-circle-btn" title="تبديل المظهر">
             <span id="admin-theme-icon" class="material-symbols-rounded" translate="no">light_mode</span>
           </button>
-          <button type="button" id="logout-btn" class="icon-btn danger-icon-btn" title="تسجيل الخروج">
+          <button type="button" id="logout-btn" class="icon-circle-btn danger-circle-btn" title="تسجيل الخروج">
             <span class="material-symbols-rounded" translate="no">logout</span>
           </button>
         </div>
       </div>
 
-      <!-- شريط التبويبات الإدارية الذكي (يُفلتر حسب صلاحية العضو) -->
-      <nav class="admin-tabs-bar">
+      <!-- شريط التبويبات الكبسولي الانسيابي (One UI 9 Pill Sub-Header) -->
+      <nav class="admin-tabs-bar" aria-label="أقسام غرفة العمليات">
         <div class="container tabs-scroll">
           <button type="button" class="admin-tab-btn active" data-tab="tab-dashboard">
             <span class="material-symbols-rounded" translate="no">space_dashboard</span>
-            <span>لوحة القيادة والمواد</span>
+            <span>القيادة والمواد</span>
           </button>
           <button type="button" class="admin-tab-btn" data-tab="tab-editor">
             <span class="material-symbols-rounded" translate="no">post_add</span>
@@ -105,7 +105,7 @@
           </button>
           <button type="button" id="nav-tab-categories" class="admin-tab-btn" data-tab="tab-categories">
             <span class="material-symbols-rounded" translate="no">category</span>
-            <span>الأقسام والتصنيفات</span>
+            <span>الأقسام والفروع</span>
           </button>
           <button type="button" id="nav-tab-ads" class="admin-tab-btn" data-tab="tab-ads">
             <span class="material-symbols-rounded" translate="no">campaign</span>
@@ -113,12 +113,12 @@
           </button>
           <button type="button" id="nav-tab-staff" class="admin-tab-btn" data-tab="tab-staff">
             <span class="material-symbols-rounded" translate="no">badge</span>
-            <span>الكادر وطلبات التوثيق</span>
+            <span>الكادر والتوثيق</span>
             <span id="kyc-pending-badge" class="notif-counter hidden">0</span>
           </button>
           <button type="button" id="nav-tab-profile" class="admin-tab-btn" data-tab="tab-profile">
             <span class="material-symbols-rounded" translate="no">verified</span>
-            <span>ملفي الصحفي والتوثيق</span>
+            <span>بطاقتي والتوثيق</span>
           </button>
           <button type="button" id="nav-tab-settings" class="admin-tab-btn" data-tab="tab-settings">
             <span class="material-symbols-rounded" translate="no">tune</span>
@@ -128,60 +128,79 @@
       </nav>
     </header>
 
-    <!-- المحتوى الرئيسي للتبويبات -->
+    <!-- مساحة العمل الرئيسية (One UI Workspace) -->
     <main class="container admin-main">
 
       <!-- =================================================================
            التبويب (1): لوحة القيادة وإدارة المواد الصحفية
            ================================================================= -->
       <section id="tab-dashboard" class="tab-panel">
+        <!-- بطاقات الإحصائيات الرباعية بأسلوب One UI Widgets -->
         <div class="stats-grid">
-          <div class="stat-card glass-surface">
-            <span class="material-symbols-rounded stat-icon" translate="no">article</span>
-            <div>
-              <span class="stat-label">إجمالي المواد المنشورة</span>
+          <div class="stat-card oneui-surface">
+            <div class="stat-icon-box blue-tint">
+              <span class="material-symbols-rounded" translate="no">article</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">المواد المنشورة</span>
               <h3 id="stat-published-count" class="stat-value">0</h3>
             </div>
           </div>
-          <div class="stat-card glass-surface">
-            <span class="material-symbols-rounded stat-icon" translate="no">visibility</span>
-            <div>
+
+          <div class="stat-card oneui-surface">
+            <div class="stat-icon-box green-tint">
+              <span class="material-symbols-rounded" translate="no">visibility</span>
+            </div>
+            <div class="stat-info">
               <span class="stat-label">إجمالي القراءات</span>
               <h3 id="stat-total-views" class="stat-value">0</h3>
             </div>
           </div>
-          <div class="stat-card glass-surface">
-            <span class="material-symbols-rounded stat-icon" translate="no">bolt</span>
-            <div>
-              <span class="stat-label">الأخبار العاجلة النشطة</span>
+
+          <div class="stat-card oneui-surface">
+            <div class="stat-icon-box red-tint">
+              <span class="material-symbols-rounded" translate="no">bolt</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">العاجل النشط</span>
               <h3 id="stat-breaking-count" class="stat-value">0</h3>
             </div>
           </div>
-          <div class="stat-card glass-surface">
-            <span class="material-symbols-rounded stat-icon" translate="no">verified_user</span>
-            <div>
-              <span class="stat-label">أعضاء الكادر الصحفي</span>
+
+          <div class="stat-card oneui-surface">
+            <div class="stat-icon-box purple-tint">
+              <span class="material-symbols-rounded" translate="no">verified_user</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">الكادر الصحفي</span>
               <h3 id="stat-staff-count" class="stat-value">0</h3>
             </div>
           </div>
         </div>
 
-        <!-- شريط البحث والفلترة في المقالات -->
-        <div class="panel-card glass-surface">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="panel-title">إدارة المواد الصحفية والتقارير</h2>
-              <p class="panel-subtitle">تحكم كامل في النشر، التعديل، الأخبار العاجلة، والمقالات الرئيسية</p>
+        <!-- إدارة وفلترة المقالات -->
+        <div class="oneui-card oneui-surface">
+          <div class="card-header-stack">
+            <div class="card-title-group">
+              <span class="material-symbols-rounded card-head-icon" translate="no">newspaper</span>
+              <div>
+                <h2 class="panel-title">إدارة المواد الصحفية والتقارير</h2>
+                <p class="panel-subtitle">تحكم فوري في النشر، التعديل، الأخبار العاجلة، والمقالات المثبتة</p>
+              </div>
             </div>
-            <div class="filter-controls">
-              <input type="search" id="admin-posts-search" class="glass-input sm-input" placeholder="ابحث في العناوين أو الكتّاب...">
-              <select id="admin-posts-cat-filter" class="glass-input sm-input">
+
+            <div class="filter-bar-grid">
+              <div class="search-field-wrap">
+                <span class="material-symbols-rounded" translate="no">search</span>
+                <input type="search" id="admin-posts-search" class="oneui-input" placeholder="ابحث في العناوين أو الكتّاب...">
+              </div>
+              <select id="admin-posts-cat-filter" class="oneui-input">
                 <option value="all">كل الأقسام</option>
               </select>
-              <select id="admin-posts-status-filter" class="glass-input sm-input">
+              <select id="admin-posts-status-filter" class="oneui-input">
                 <option value="all">كل الحالات</option>
-                <option value="published">منشور</option>
-                <option value="draft">مسودة / قيد المراجعة</option>
+                <option value="published">🟢 منشور بالموقع</option>
+                <option value="draft">🟠 مسودة / مراجعة</option>
               </select>
             </div>
           </div>
@@ -193,14 +212,17 @@
       </section>
 
       <!-- =================================================================
-           التبويب (2): محرر المواد الصحفية المتقدم (بدون أي حقول ترجمة)
+           التبويب (2): محرر المواد الصحفية المتقدم (One UI 9 Studio)
            ================================================================= -->
       <section id="tab-editor" class="tab-panel hidden">
-        <div class="panel-card glass-surface">
+        <div class="oneui-card oneui-surface">
           <div class="panel-header-row">
-            <div>
-              <h2 id="editor-form-heading" class="panel-title">إنشاء وتحرير مادة صحفية جديدة</h2>
-              <p class="panel-subtitle">يدعم المقالات، الفيديوهات، حلقات البودكاست، والتقارير المصورة</p>
+            <div class="card-title-group">
+              <span class="material-symbols-rounded card-head-icon" translate="no">edit_document</span>
+              <div>
+                <h2 id="editor-form-heading" class="panel-title">إنشاء وتحرير مادة صحفية جديدة</h2>
+                <p class="panel-subtitle">يدعم المقالات، الفيديوهات، حلقات البودكاست، والتقارير المصورة</p>
+              </div>
             </div>
             <button type="button" id="reset-editor-btn" class="secondary-btn">
               <span class="material-symbols-rounded" translate="no">restart_alt</span>
@@ -214,12 +236,12 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label for="post-title">عنوان المادة الصحفية *</label>
-                <input type="text" id="post-title" class="glass-input" placeholder="اكتب عنواناً صحفياً قوياً وجذاباً..." required>
+                <input type="text" id="post-title" class="oneui-input" placeholder="اكتب عنواناً صحفياً قوياً وجذاباً..." required>
               </div>
 
               <div class="form-group">
                 <label for="post-type">نوع المادة الإعلامية *</label>
-                <select id="post-type" class="glass-input">
+                <select id="post-type" class="oneui-input">
                   <option value="article">📄 مقال / تقرير صحفي</option>
                   <option value="video">🎬 فيديو / إنفوجرافيك متحرك</option>
                   <option value="podcast">🎙️ حلقة بودكاست صوتية</option>
@@ -231,32 +253,32 @@
             <div class="form-grid-3">
               <div class="form-group">
                 <label for="post-category">القسم الرئيسي *</label>
-                <select id="post-category" class="glass-input" required></select>
+                <select id="post-category" class="oneui-input" required></select>
               </div>
 
               <div class="form-group">
                 <label for="post-subcategory">التصنيف الفرعي (اختياري)</label>
-                <select id="post-subcategory" class="glass-input">
+                <select id="post-subcategory" class="oneui-input">
                   <option value="">— بدون تصنيف فرعي —</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="post-author">اسم الكاتب / المصدر</label>
-                <input type="text" id="post-author" class="glass-input" placeholder="يُملأ تلقائياً باسمك الصحفي">
+                <input type="text" id="post-author" class="oneui-input" placeholder="يُملأ تلقائياً باسمك الصحفي">
               </div>
             </div>
 
             <div class="form-group">
               <label for="post-summary">خلاصة البوصلة (الملخص التنفيذي للمادة) *</label>
-              <textarea id="post-summary" class="glass-input" rows="2" placeholder="ملخص مكثف يظهر في البطاقات ومقدمة التقرير..." required></textarea>
+              <textarea id="post-summary" class="oneui-input" rows="2" placeholder="ملخص مكثف يظهر في البطاقات ومقدمة التقرير..." required></textarea>
             </div>
 
             <!-- حقول الوسائط الخاصة بالفيديو أو البودكاست -->
             <div id="video-fields-box" class="conditional-box hidden">
               <div class="form-group">
                 <label for="post-video-url">رابط الفيديو (YouTube أو Shorts)</label>
-                <input type="url" id="post-video-url" class="glass-input" placeholder="https://www.youtube.com/watch?v=...">
+                <input type="url" id="post-video-url" class="oneui-input" dir="ltr" placeholder="https://www.youtube.com/watch?v=...">
               </div>
             </div>
 
@@ -264,15 +286,15 @@
               <div class="form-grid-3">
                 <div class="form-group">
                   <label for="post-podcast-url">رابط الاستماع للحلقة</label>
-                  <input type="url" id="post-podcast-url" class="glass-input" placeholder="https://...">
+                  <input type="url" id="post-podcast-url" class="oneui-input" dir="ltr" placeholder="https://...">
                 </div>
                 <div class="form-group">
                   <label for="post-podcast-platform">المنصة الصوتية</label>
-                  <input type="text" id="post-podcast-platform" class="glass-input" placeholder="Apple Podcasts / Spotify / SoundCloud">
+                  <input type="text" id="post-podcast-platform" class="oneui-input" placeholder="Apple Podcasts / Spotify / SoundCloud">
                 </div>
                 <div class="form-group">
                   <label for="post-podcast-duration">مدة الحلقة</label>
-                  <input type="text" id="post-podcast-duration" class="glass-input" placeholder="25:00">
+                  <input type="text" id="post-podcast-duration" class="oneui-input" dir="ltr" placeholder="25:00">
                 </div>
               </div>
             </div>
@@ -281,7 +303,7 @@
             <div class="form-group">
               <label>الصورة البارزة للمادة (رفع سحابي مباشر أو رابط)</label>
               <div class="upload-row">
-                <input type="url" id="post-image-url" class="glass-input" placeholder="https://... أو ارفع صورة من جهازك مباشرة">
+                <input type="url" id="post-image-url" class="oneui-input" dir="ltr" placeholder="https://... أو ارفع صورة من جهازك مباشرة">
                 <label class="upload-btn">
                   <input type="file" id="post-image-file" accept="image/*" hidden>
                   <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -294,44 +316,52 @@
             <div class="form-group">
               <label for="post-content">النص الكامل للمادة الصحفية *</label>
               <div class="editor-toolbar">
-                <button type="button" class="tool-btn" data-md="h2" title="عنوان رئيسي">H2</button>
-                <button type="button" class="tool-btn" data-md="h3" title="عنوان فرعي">H3</button>
-                <button type="button" class="tool-btn" data-md="bold" title="نص عريض"><b>B</b></button>
+                <button type="button" class="tool-btn" data-md="h2" title="عنوان رئيسي">H2 عنوان</button>
+                <button type="button" class="tool-btn" data-md="h3" title="عنوان فرعي">H3 فرعي</button>
+                <button type="button" class="tool-btn" data-md="bold" title="نص عريض"><b>B عريض</b></button>
                 <button type="button" class="tool-btn" data-md="quote" title="اقتباس صحفي">❝ اقتباس</button>
                 <button type="button" class="tool-btn" data-md="bullet" title="نقطة قائمة">• قائمة</button>
                 <button type="button" class="tool-btn" data-md="hr" title="فاصل أفقي">― فاصل</button>
               </div>
-              <textarea id="post-content" class="glass-input content-textarea" rows="11" placeholder="اكتب تفاصيل التقرير أو المقال هنا..." required></textarea>
+              <textarea id="post-content" class="oneui-input content-textarea" rows="12" placeholder="اكتب تفاصيل التقرير أو المقال هنا..." required></textarea>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label for="post-tags">الوسوم والكلمات المفتاحية (افصل بينها بفاصلة)</label>
-                <input type="text" id="post-tags" class="glass-input" placeholder="اليمن، تحليل سياسي، اقتصاد، تقنية">
+                <input type="text" id="post-tags" class="oneui-input" placeholder="اليمن، تحليل سياسي، اقتصاد، تقنية">
               </div>
 
               <div class="form-group">
                 <label for="post-status">حالة النشر</label>
-                <select id="post-status" class="glass-input">
+                <select id="post-status" class="oneui-input">
                   <option value="published">✅ نشر فوري في الموقع العام</option>
                   <option value="draft">📝 حفظ كمسودة / قيد المراجعة</option>
                 </select>
               </div>
             </div>
 
-            <div class="switches-row">
-              <label class="switch-pill">
-                <input type="checkbox" id="post-is-breaking">
-                <span>⚡ إدراج في شريط الأخبار العاجلة الدوّار</span>
+            <!-- مفاتيح One UI الانزلاقية للخبر العاجل والتثبيت -->
+            <div class="switches-grid">
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>⚡ إدراج في شريط الأخبار العاجلة الدوّار</strong>
+                  <span>يظهر فوراً في الشريط الأحمر أعلى الموقع العام</span>
+                </div>
+                <input type="checkbox" id="post-is-breaking" class="oneui-toggle">
               </label>
-              <label class="switch-pill">
-                <input type="checkbox" id="post-is-featured">
-                <span>🌟 تثبيت كمادة رئيسية أولى (Hero) في الواجهة</span>
+
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>🌟 تثبيت كمادة رئيسية أولى (Hero)</strong>
+                  <span>تتصدر الواجهة الرئيسية ببطاقة العرض الكبرى</span>
+                </div>
+                <input type="checkbox" id="post-is-featured" class="oneui-toggle">
               </label>
             </div>
 
             <div class="form-actions-bar">
-              <button type="submit" id="save-post-btn" class="primary-btn">
+              <button type="submit" id="save-post-btn" class="primary-btn lg-btn">
                 <span class="material-symbols-rounded" translate="no">publish</span>
                 <span id="save-post-btn-label">اعتماد ونشر المادة الآن</span>
               </button>
@@ -345,42 +375,50 @@
            ================================================================= -->
       <section id="tab-categories" class="tab-panel hidden">
         <div class="admin-grid-2">
-          <div class="panel-card glass-surface">
-            <h2 id="cat-form-title" class="panel-title">إضافة / تعديل قسم صحفي</h2>
-            <p class="panel-subtitle">ينعكس فوراً في شريط التنقل والقائمة الجانبية للموقع العام</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">create_new_folder</span>
+              <div>
+                <h2 id="cat-form-title" class="panel-title">إضافة / تعديل قسم صحفي</h2>
+                <p class="panel-subtitle">ينعكس فوراً في شريط التنقل والقائمة الجانبية للموقع العام</p>
+              </div>
+            </div>
 
             <form id="category-form" class="admin-form">
               <input type="hidden" id="edit-cat-id" value="">
 
               <div class="form-group">
                 <label for="cat-name">اسم القسم (بالعربية) *</label>
-                <input type="text" id="cat-name" class="glass-input" placeholder="مثال: تحقيقات وتقارير" required>
+                <input type="text" id="cat-name" class="oneui-input" placeholder="مثال: تحقيقات وتقارير" required>
               </div>
 
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="cat-slug">المعرّف البرمجي (Slug بالإنجليزية) *</label>
-                  <input type="text" id="cat-slug" class="glass-input" dir="ltr" placeholder="reports" required>
+                  <input type="text" id="cat-slug" class="oneui-input" dir="ltr" placeholder="reports" required>
                 </div>
                 <div class="form-group">
                   <label for="cat-order">الترتيب في الشريط</label>
-                  <input type="number" id="cat-order" class="glass-input" value="1" min="1">
+                  <input type="number" id="cat-order" class="oneui-input" value="1" min="1">
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="cat-icon">أيقونة القسم (Material Symbol Name)</label>
-                <input type="text" id="cat-icon" class="glass-input" dir="ltr" placeholder="newspaper / public / policy / memory">
+                <input type="text" id="cat-icon" class="oneui-input" dir="ltr" placeholder="newspaper / public / policy / memory">
               </div>
 
               <div class="form-group">
                 <label for="cat-subcategories">التصنيفات الفرعية (افصل بينها بفاصلة)</label>
-                <input type="text" id="cat-subcategories" class="glass-input" placeholder="السياسة اليمنية، شؤون المحافظات، ملفات خاصة">
+                <input type="text" id="cat-subcategories" class="oneui-input" placeholder="السياسة اليمنية، شؤون المحافظات، ملفات خاصة">
               </div>
 
-              <label class="switch-pill" style="margin-bottom: 14px;">
-                <input type="checkbox" id="cat-visible" checked>
-                <span>إظهار القسم للزوار في الموقع العام</span>
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>إظهار القسم للزوار في الموقع العام</strong>
+                  <span>يمكنك إخفاء القسم مؤقتاً دون حذف مقالاته</span>
+                </div>
+                <input type="checkbox" id="cat-visible" class="oneui-toggle" checked>
               </label>
 
               <div class="form-actions-bar">
@@ -393,9 +431,14 @@
             </form>
           </div>
 
-          <div class="panel-card glass-surface">
-            <h2 class="panel-title">الأقسام المعتمدة حالياً</h2>
-            <p class="panel-subtitle">اضغط على تعديل لتحديث الأقسام الفرعية أو الترتيب</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">folder_Copy</span>
+              <div>
+                <h2 class="panel-title">الأقسام المعتمدة حالياً</h2>
+                <p class="panel-subtitle">اضغط على تعديل لتحديث الأقسام الفرعية أو الترتيب</p>
+              </div>
+            </div>
             <div id="categories-admin-list" class="admin-items-list"></div>
           </div>
         </div>
@@ -406,26 +449,31 @@
            ================================================================= -->
       <section id="tab-ads" class="tab-panel hidden">
         <div class="admin-grid-2">
-          <div class="panel-card glass-surface">
-            <h2 id="ad-form-title" class="panel-title">إنشاء حملة إعلانية / رعاية رسمية</h2>
-            <p class="panel-subtitle">تحكم كامل في موضع الإعلان وتصميمه وتتبع المشاهدات والنقرات</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">ads_click</span>
+              <div>
+                <h2 id="ad-form-title" class="panel-title">إنشاء حملة إعلانية / رعاية رسمية</h2>
+                <p class="panel-subtitle">تحكم كامل في موضع الإعلان وتصميمه وتتبع المشاهدات والنقرات</p>
+              </div>
+            </div>
 
             <form id="ad-form" class="admin-form">
               <input type="hidden" id="edit-ad-id" value="">
 
               <div class="form-group">
                 <label for="ad-title">عنوان الحملة أو الرسالة الإعلانية *</label>
-                <input type="text" id="ad-title" class="glass-input" placeholder="اكتشف خدمات..." required>
+                <input type="text" id="ad-title" class="oneui-input" placeholder="اكتشف خدمات..." required>
               </div>
 
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="ad-sponsor">اسم الراعي الرسمي / المعلن *</label>
-                  <input type="text" id="ad-sponsor" class="glass-input" placeholder="شركة / مؤسسة..." required>
+                  <input type="text" id="ad-sponsor" class="oneui-input" placeholder="شركة / مؤسسة..." required>
                 </div>
                 <div class="form-group">
                   <label for="ad-style">نمط العرض البصري</label>
-                  <select id="ad-style" class="glass-input">
+                  <select id="ad-style" class="oneui-input">
                     <option value="card">✨ بطاقة رعاية زجاجية مدمجة</option>
                     <option value="banner">🖼️ بنر إعلاني عريض (Leaderboard)</option>
                   </select>
@@ -435,7 +483,7 @@
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="ad-placement">موضع الظهور في الموقع</label>
-                  <select id="ad-placement" class="glass-input">
+                  <select id="ad-placement" class="oneui-input">
                     <option value="top">أعلى الصفحة الرئيسية (تحت الترويسة)</option>
                     <option value="between_posts">بين بطاقات الأخبار في الرئيسية</option>
                     <option value="in_article">داخل تفاصيل المقال (بين الفقرات)</option>
@@ -444,14 +492,14 @@
                 </div>
                 <div class="form-group">
                   <label for="ad-target-url">رابط التوجيه عند النقر *</label>
-                  <input type="url" id="ad-target-url" class="glass-input" dir="ltr" placeholder="https://..." required>
+                  <input type="url" id="ad-target-url" class="oneui-input" dir="ltr" placeholder="https://..." required>
                 </div>
               </div>
 
               <div class="form-group">
                 <label>صورة أو شعار الحملة الإعلانية</label>
                 <div class="upload-row">
-                  <input type="url" id="ad-image-url" class="glass-input" dir="ltr" placeholder="https://... أو ارفع صورة">
+                  <input type="url" id="ad-image-url" class="oneui-input" dir="ltr" placeholder="https://... أو ارفع صورة">
                   <label class="upload-btn">
                     <input type="file" id="ad-image-file" accept="image/*" hidden>
                     <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -460,9 +508,12 @@
                 </div>
               </div>
 
-              <label class="switch-pill" style="margin-bottom: 14px;">
-                <input type="checkbox" id="ad-active" checked>
-                <span>تفعيل الحملة الإعلانية فوراً في الموقع العام</span>
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>تفعيل الحملة الإعلانية فوراً في الموقع العام</strong>
+                  <span>تبدأ الحملة بالظهور وحساب الزيارات والنقرات تلقائياً</span>
+                </div>
+                <input type="checkbox" id="ad-active" class="oneui-toggle" checked>
               </label>
 
               <div class="form-actions-bar">
@@ -475,9 +526,14 @@
             </form>
           </div>
 
-          <div class="panel-card glass-surface">
-            <h2 class="panel-title">الحملات الإعلانية وإحصائيات الأداء</h2>
-            <p class="panel-subtitle">مراقبة حية لعدد مرات الظهور (Views) والنقرات الفعلية (Clicks)</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">monitoring</span>
+              <div>
+                <h2 class="panel-title">الحملات الإعلانية وإحصائيات الأداء</h2>
+                <p class="panel-subtitle">مراقبة حية لعدد مرات الظهور (Views) والنقرات الفعلية (Clicks)</p>
+              </div>
+            </div>
             <div id="ads-admin-list" class="admin-items-list"></div>
           </div>
         </div>
@@ -488,10 +544,11 @@
            ================================================================= -->
       <section id="tab-staff" class="tab-panel hidden">
         <!-- صندوق مراجعة طلبات توثيق الهوية (KYC Requests) -->
-        <div class="panel-card glass-surface" style="margin-bottom: 24px;">
-          <div class="panel-header-row">
+        <div class="oneui-card oneui-surface" style="margin-bottom: 22px;">
+          <div class="card-title-group" style="margin-bottom: 16px;">
+            <span class="material-symbols-rounded card-head-icon" translate="no">verified_user</span>
             <div>
-              <h2 class="panel-title">🛡️ طلبات توثيق الهوية الصحفية (KYC) للحصول على الشارة الزرقاء</h2>
+              <h2 class="panel-title">طلبات توثيق الهوية الصحفية (KYC) للحصول على الشارة الزرقاء</h2>
               <p class="panel-subtitle">راجع الوثائق المرفوعة من الكتّاب والمحررين واعتمد توثيقهم بضغطة زر</p>
             </div>
           </div>
@@ -501,24 +558,29 @@
         </div>
 
         <div class="admin-grid-2">
-          <div class="panel-card glass-surface">
-            <h2 id="staff-form-title" class="panel-title">إضافة / تحديث عضو في الكادر الصحفي</h2>
-            <p class="panel-subtitle">تحديد مستوى الصلاحية (4 مستويات قياسية) وحالة الشارة الزرقاء</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">manage_accounts</span>
+              <div>
+                <h2 id="staff-form-title" class="panel-title">إضافة / تحديث عضو في الكادر الصحفي</h2>
+                <p class="panel-subtitle">تحديد مستوى الصلاحية (4 مستويات قياسية) وحالة الشارة الزرقاء</p>
+              </div>
+            </div>
 
             <form id="staff-form" class="admin-form">
               <div class="form-group">
                 <label for="staff-email">البريد الإلكتروني للعضو (معرّف الدخول) *</label>
-                <input type="email" id="staff-email" class="glass-input" dir="ltr" placeholder="journalist@gmail.com" required>
+                <input type="email" id="staff-email" class="oneui-input" dir="ltr" placeholder="journalist@gmail.com" required>
               </div>
 
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="staff-name">الاسم الصحفي المعروض *</label>
-                  <input type="text" id="staff-name" class="glass-input" placeholder="الاسم الكامل أو اللقب الأدبي" required>
+                  <input type="text" id="staff-name" class="oneui-input" placeholder="الاسم الكامل أو اللقب الأدبي" required>
                 </div>
                 <div class="form-group">
                   <label for="staff-role">مستوى الصلاحية في النظام *</label>
-                  <select id="staff-role" class="glass-input" required>
+                  <select id="staff-role" class="oneui-input" required>
                     <option value="writer">✍️ كاتب صحفي (إنشاء ومراجعة مقالاته)</option>
                     <option value="editor">📰 محرر صحفي (نشر وتعديل المواد والعاجل)</option>
                     <option value="manager">📊 مدير منصة وإعلانات (الأقسام، الإعلانات، التوثيق)</option>
@@ -529,18 +591,18 @@
 
               <div class="form-group">
                 <label for="staff-job-title">المسمى الوظيفي في الشبكة</label>
-                <input type="text" id="staff-job-title" class="glass-input" placeholder="محلل سياسي / محرر الشؤون الدولية">
+                <input type="text" id="staff-job-title" class="oneui-input" placeholder="محلل سياسي / محرر الشؤون الدولية">
               </div>
 
               <div class="form-group">
                 <label for="staff-bio">نبذة تعريفية مختصرة</label>
-                <textarea id="staff-bio" class="glass-input" rows="2" placeholder="نبذة تظهر في صفحة الكاتب العامة..."></textarea>
+                <textarea id="staff-bio" class="oneui-input" rows="2" placeholder="نبذة تظهر في صفحة الكاتب العامة..."></textarea>
               </div>
 
               <div class="form-group">
                 <label>الصورة الشخصية للعضو</label>
                 <div class="upload-row">
-                  <input type="url" id="staff-avatar-url" class="glass-input" dir="ltr" placeholder="https://...">
+                  <input type="url" id="staff-avatar-url" class="oneui-input" dir="ltr" placeholder="https://...">
                   <label class="upload-btn">
                     <input type="file" id="staff-avatar-file" accept="image/*" hidden>
                     <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -549,9 +611,12 @@
                 </div>
               </div>
 
-              <label class="switch-pill" style="margin-bottom: 14px;">
-                <input type="checkbox" id="staff-verified">
-                <span>☑️ منح شارة التوثيق الزرقاء الرسمية (Verified Badge)</span>
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>منح شارة التوثيق الزرقاء الرسمية (Verified Badge)</strong>
+                  <span>تظهر بجانب اسم الكاتب في جميع المقالات وصفحته الشخصية</span>
+                </div>
+                <input type="checkbox" id="staff-verified" class="oneui-toggle">
               </label>
 
               <div class="form-actions-bar">
@@ -564,9 +629,14 @@
             </form>
           </div>
 
-          <div class="panel-card glass-surface">
-            <h2 class="panel-title">دليل الكادر الصحفي المعتمد</h2>
-            <p class="panel-subtitle">قائمة الأعضاء وصلاحياتهم وحالة التوثيق</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">groups</span>
+              <div>
+                <h2 class="panel-title">دليل الكادر الصحفي المعتمد</h2>
+                <p class="panel-subtitle">قائمة الأعضاء وصلاحياتهم وحالة التوثيق</p>
+              </div>
+            </div>
             <div id="staff-admin-list" class="admin-items-list"></div>
           </div>
         </div>
@@ -578,9 +648,14 @@
       <section id="tab-profile" class="tab-panel hidden">
         <div class="admin-grid-2">
           <!-- تعديل الملف الشخصي للصحفي -->
-          <div class="panel-card glass-surface">
-            <h2 class="panel-title">بطاقتي الصحفية العامة</h2>
-            <p class="panel-subtitle">تظهر هذه البيانات للقرّاء عند النقر على اسمك في المقالات المنشورة</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">account_box</span>
+              <div>
+                <h2 class="panel-title">بطاقتي الصحفية العامة</h2>
+                <p class="panel-subtitle">تظهر هذه البيانات للقرّاء عند النقر على اسمك في المقالات المنشورة</p>
+              </div>
+            </div>
 
             <form id="my-profile-form" class="admin-form">
               <div class="profile-preview-banner">
@@ -597,23 +672,23 @@
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="my-name">الاسم الصحفي المعروض *</label>
-                  <input type="text" id="my-name" class="glass-input" required>
+                  <input type="text" id="my-name" class="oneui-input" required>
                 </div>
                 <div class="form-group">
                   <label for="my-job-title">المسمى الوظيفي / التخصص</label>
-                  <input type="text" id="my-job-title" class="glass-input" placeholder="كاتب ومحلل سياسي">
+                  <input type="text" id="my-job-title" class="oneui-input" placeholder="كاتب ومحلل سياسي">
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="my-bio">النبذة التعريفية (السيرة المختصرة)</label>
-                <textarea id="my-bio" class="glass-input" rows="3" placeholder="اكتب نبذة مهنية تظهر للزوار في صفحتك الشخصية..."></textarea>
+                <textarea id="my-bio" class="oneui-input" rows="3" placeholder="اكتب نبذة مهنية تظهر للزوار في صفحتك الشخصية..."></textarea>
               </div>
 
               <div class="form-group">
                 <label>الصورة الشخصية الرسمية</label>
                 <div class="upload-row">
-                  <input type="url" id="my-avatar-url" class="glass-input" dir="ltr" placeholder="https://...">
+                  <input type="url" id="my-avatar-url" class="oneui-input" dir="ltr" placeholder="https://...">
                   <label class="upload-btn">
                     <input type="file" id="my-avatar-file" accept="image/*" hidden>
                     <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -625,11 +700,11 @@
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="my-social-x">رابط حساب X (تويتر)</label>
-                  <input type="url" id="my-social-x" class="glass-input" dir="ltr" placeholder="https://x.com/...">
+                  <input type="url" id="my-social-x" class="oneui-input" dir="ltr" placeholder="https://x.com/...">
                 </div>
                 <div class="form-group">
                   <label for="my-social-fb">رابط حساب فيسبوك أو موقع شخصي</label>
-                  <input type="url" id="my-social-fb" class="glass-input" dir="ltr" placeholder="https://...">
+                  <input type="url" id="my-social-fb" class="oneui-input" dir="ltr" placeholder="https://...">
                 </div>
               </div>
 
@@ -641,9 +716,14 @@
           </div>
 
           <!-- طلب توثيق الهوية KYC للحصول على الشارة الزرقاء -->
-          <div class="panel-card glass-surface">
-            <h2 class="panel-title">توثيق الهوية الصحفية (الشارة الزرقاء)</h2>
-            <p class="panel-subtitle">ارفع إثبات الهوية أو البطاقة الصحفية ليتم مراجعتها من الإدارة ومنحك شارة التوثيق</p>
+          <div class="oneui-card oneui-surface">
+            <div class="card-title-group" style="margin-bottom: 18px;">
+              <span class="material-symbols-rounded card-head-icon" translate="no">verified</span>
+              <div>
+                <h2 class="panel-title">توثيق الهوية الصحفية (الشارة الزرقاء)</h2>
+                <p class="panel-subtitle">ارفع إثبات الهوية أو البطاقة الصحفية لمراجعتها من الإدارة ومنحك شارة التوثيق</p>
+              </div>
+            </div>
 
             <div id="kyc-status-banner" class="kyc-status-box">
               حالة التوثيق الحالية: <strong id="kyc-status-text">غير موثق</strong>
@@ -652,12 +732,12 @@
             <form id="kyc-request-form" class="admin-form">
               <div class="form-group">
                 <label for="kyc-full-legal-name">الاسم الرباعي الكامل كما في الهوية *</label>
-                <input type="text" id="kyc-full-legal-name" class="glass-input" placeholder="الاسم القانوني الكامل للمطابقة" required>
+                <input type="text" id="kyc-full-legal-name" class="oneui-input" placeholder="الاسم القانوني الكامل للمطابقة" required>
               </div>
 
               <div class="form-group">
                 <label for="kyc-doc-type">نوع الوثيقة المرفقة *</label>
-                <select id="kyc-doc-type" class="glass-input">
+                <select id="kyc-doc-type" class="oneui-input">
                   <option value="بطاقة صحفية">بطاقة عضوية صحفية / إعلامية</option>
                   <option value="بطاقة هوية وطنية">بطاقة هوية وطنية</option>
                   <option value="جواز سفر">جواز سفر</option>
@@ -667,7 +747,7 @@
               <div class="form-group">
                 <label>صورة الوثيقة الرسمية (تُحفظ بشكل سري للإدارة فقط) *</label>
                 <div class="upload-row">
-                  <input type="url" id="kyc-doc-url" class="glass-input" dir="ltr" placeholder="ارفع صورة الوثيقة من جهازك..." required>
+                  <input type="url" id="kyc-doc-url" class="oneui-input" dir="ltr" placeholder="ارفع صورة الوثيقة من جهازك..." required>
                   <label class="upload-btn">
                     <input type="file" id="kyc-doc-file" accept="image/*" hidden>
                     <span class="material-symbols-rounded" translate="no">upload_file</span>
@@ -678,7 +758,7 @@
 
               <div class="form-group">
                 <label for="kyc-note">ملاحظات إضافية للإدارة (اختياري)</label>
-                <textarea id="kyc-note" class="glass-input" rows="2" placeholder="أي توضيح إضافي حول صفتك الصحفية..."></textarea>
+                <textarea id="kyc-note" class="oneui-input" rows="2" placeholder="أي توضيح إضافي حول صفتك الصحفية..."></textarea>
               </div>
 
               <button type="submit" id="submit-kyc-btn" class="primary-btn">
@@ -691,19 +771,21 @@
       </section>
 
       <!-- =================================================================
-           التبويب (7): الإعدادات السيادية (قوائم منسدلة نظيفة بدون أي ترجمة)
+           التبويب (7): الإعدادات السيادية الشاملة (بأسلوب Samsung One UI 9 Settings)
            ================================================================= -->
       <section id="tab-settings" class="tab-panel hidden">
         <form id="global-settings-form" class="admin-form">
 
-          <!-- القسم المنسدل 1: الهوية البصرية والشعارات -->
-          <details class="settings-accordion glass-surface" open>
+          <!-- المجموعة (1): الهوية البصرية والشعارات وأغلفة المشاركة -->
+          <details class="settings-accordion oneui-surface" open>
             <summary class="accordion-header">
               <div class="accordion-title-wrap">
-                <span class="material-symbols-rounded" translate="no">palette</span>
+                <div class="setting-squircle blue-tint">
+                  <span class="material-symbols-rounded" translate="no">palette</span>
+                </div>
                 <div>
-                  <h3>1. الهوية البصرية، الشعار الرسمي، وأيقونة الموقع</h3>
-                  <p>تُعمم هذه الشعارات فوراً في الموقع العام وغرفة العمليات بدون أي وميض</p>
+                  <h3>1. الهوية البصرية، الشعارات، وصورة المشاركة (OG Image)</h3>
+                  <p>تُعمم فوراً في الموقع العام وغرفة العمليات بدون أي وميض</p>
                 </div>
               </div>
               <span class="material-symbols-rounded accordion-arrow" translate="no">expand_more</span>
@@ -713,28 +795,31 @@
               <div class="form-grid-3">
                 <div class="form-group">
                   <label for="set-site-name">اسم الموقع الرسمي *</label>
-                  <input type="text" id="set-site-name" class="glass-input" placeholder="بوصلة السياسة اليمنية" required>
+                  <input type="text" id="set-site-name" class="oneui-input" placeholder="بوصلة السياسة اليمنية" required>
                 </div>
                 <div class="form-group">
                   <label for="set-network-name">اسم الشبكة المالكة *</label>
-                  <input type="text" id="set-network-name" class="glass-input" placeholder="شبكة البوصلة" required>
+                  <input type="text" id="set-network-name" class="oneui-input" placeholder="شبكة البوصلة" required>
                 </div>
                 <div class="form-group">
                   <label for="set-accent-color">اللون السيادي للمنصة (Hex)</label>
-                  <input type="text" id="set-accent-color" class="glass-input" dir="ltr" placeholder="#3b82f6">
+                  <div class="color-picker-row">
+                    <input type="color" id="set-accent-picker" class="color-swatch-input" value="#3b82f6" oninput="document.getElementById('set-accent-color').value = this.value">
+                    <input type="text" id="set-accent-color" class="oneui-input" dir="ltr" placeholder="#3b82f6" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('set-accent-picker').value = this.value">
+                  </div>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="set-site-desc">الوصف التعريفي للمنصة (SEO Description)</label>
-                <textarea id="set-site-desc" class="glass-input" rows="2"></textarea>
+                <textarea id="set-site-desc" class="oneui-input" rows="2" placeholder="منصة إخبارية وتحليلية ترصد كواليس السياسة والتقنية والثقافة"></textarea>
               </div>
 
-              <div class="form-grid-2">
+              <div class="form-grid-3">
                 <div class="form-group">
-                  <label>الشعار الرئيسي للموقع (Logo PNG شفاف)</label>
+                  <label>الشعار الرئيسي (Logo PNG شفاف)</label>
                   <div class="upload-row">
-                    <input type="url" id="set-logo-url" class="glass-input" dir="ltr" placeholder="https://...">
+                    <input type="url" id="set-logo-url" class="oneui-input" dir="ltr" placeholder="https://...">
                     <label class="upload-btn">
                       <input type="file" id="set-logo-file" accept="image/*" hidden>
                       <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -744,9 +829,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label>أيقونة المتصفح والمشاركة (Favicon & OG Image)</label>
+                  <label>أيقونة المتصفح المربعة (Favicon)</label>
                   <div class="upload-row">
-                    <input type="url" id="set-favicon-url" class="glass-input" dir="ltr" placeholder="https://...">
+                    <input type="url" id="set-favicon-url" class="oneui-input" dir="ltr" placeholder="https://...">
                     <label class="upload-btn">
                       <input type="file" id="set-favicon-file" accept="image/*" hidden>
                       <span class="material-symbols-rounded" translate="no">cloud_upload</span>
@@ -754,79 +839,143 @@
                     </label>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label>غلاف المشاركة الافتراضي (OG Image)</label>
+                  <div class="upload-row">
+                    <input type="url" id="set-og-image-url" class="oneui-input" dir="ltr" placeholder="https://...">
+                    <label class="upload-btn">
+                      <input type="file" id="set-og-image-file" accept="image/*" hidden>
+                      <span class="material-symbols-rounded" translate="no">cloud_upload</span>
+                      <span id="og-upload-status">رفع الغلاف</span>
+                    </label>
+                  </div>
+                </div>
               </div>
 
-              <label class="switch-pill">
-                <input type="checkbox" id="set-hide-text-logo" checked>
-                <span>إخفاء النص بجانب الشعار في الترويسة (الاكتفاء بصورة الشعار الرسمي فقط)</span>
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>إخفاء النص بجانب الشعار في الترويسة</strong>
+                  <span>الاكتفاء بعرض صورة الشعار الرسمي فقط في أعلى الموقع العام</span>
+                </div>
+                <input type="checkbox" id="set-hide-text-logo" class="oneui-toggle" checked>
               </label>
             </div>
           </details>
 
-          <!-- القسم المنسدل 2: الصفحات القانونية وروابط التواصل -->
-          <details class="settings-accordion glass-surface">
+          <!-- المجموعة (2): الصفحات القانونية، القوائم، وروابط التواصل -->
+          <details class="settings-accordion oneui-surface">
             <summary class="accordion-header">
               <div class="accordion-title-wrap">
-                <span class="material-symbols-rounded" translate="no">gavel</span>
+                <div class="setting-squircle green-tint">
+                  <span class="material-symbols-rounded" translate="no">gavel</span>
+                </div>
                 <div>
-                  <h3>2. الصفحات القانونية (من نحن / الخصوصية) وحسابات التواصل</h3>
-                  <p>إدارة محتوى الصفحات الثابتة وبيانات التواصل الرسمية</p>
+                  <h3>2. الصفحات القانونية (من نحن / الخصوصية)، القوائم، وحسابات التواصل</h3>
+                  <p>إدارة محتوى الصفحات الثابتة وإظهارها في القائمة الجانبية</p>
                 </div>
               </div>
               <span class="material-symbols-rounded accordion-arrow" translate="no">expand_more</span>
             </summary>
 
             <div class="accordion-body">
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>إظهار روابط "من نحن" و"سياسة الخصوصية" في القائمة الجانبية</strong>
+                  <span>يتيح للزوار تصفح الهوية القانونية للمنصة من القائمة والتذييل</span>
+                </div>
+                <input type="checkbox" id="set-show-about-menu" class="oneui-toggle" checked>
+              </label>
+
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="set-about-content">محتوى صفحة "من نحن"</label>
-                  <textarea id="set-about-content" class="glass-input" rows="5" placeholder="اكتب الرؤية والرسالة وهيئة التحرير..."></textarea>
+                  <textarea id="set-about-content" class="oneui-input" rows="5" placeholder="اكتب الرؤية والرسالة وهيئة التحرير..."></textarea>
                 </div>
                 <div class="form-group">
                   <label for="set-privacy-content">محتوى صفحة "سياسة الخصوصية"</label>
-                  <textarea id="set-privacy-content" class="glass-input" rows="5" placeholder="اكتب بنود سياسة الخصوصية وحقوق النشر..."></textarea>
+                  <textarea id="set-privacy-content" class="oneui-input" rows="5" placeholder="اكتب بنود سياسة الخصوصية وحقوق النشر..."></textarea>
                 </div>
               </div>
 
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="set-contact-email">البريد الرسمي للتواصل والإعلانات</label>
-                  <input type="email" id="set-contact-email" class="glass-input" dir="ltr" placeholder="contact@domain.com">
+                  <input type="email" id="set-contact-email" class="oneui-input" dir="ltr" placeholder="contact@domain.com">
                 </div>
                 <div class="form-group">
                   <label for="set-contact-phone">رقم الهاتف / واتساب الإدارة</label>
-                  <input type="text" id="set-contact-phone" class="glass-input" dir="ltr" placeholder="+967...">
+                  <input type="text" id="set-contact-phone" class="oneui-input" dir="ltr" placeholder="+967...">
                 </div>
               </div>
 
               <div class="form-grid-2">
                 <div class="form-group">
                   <label for="set-social-wa">رابط قناة WhatsApp</label>
-                  <input type="url" id="set-social-wa" class="glass-input" dir="ltr" placeholder="https://whatsapp.com/channel/...">
+                  <input type="url" id="set-social-wa" class="oneui-input" dir="ltr" placeholder="https://whatsapp.com/channel/...">
                 </div>
                 <div class="form-group">
                   <label for="set-social-tg">رابط قناة Telegram</label>
-                  <input type="url" id="set-social-tg" class="glass-input" dir="ltr" placeholder="https://t.me/...">
+                  <input type="url" id="set-social-tg" class="oneui-input" dir="ltr" placeholder="https://t.me/...">
                 </div>
                 <div class="form-group">
                   <label for="set-social-x">رابط حساب X (Twitter)</label>
-                  <input type="url" id="set-social-x" class="glass-input" dir="ltr" placeholder="https://x.com/...">
+                  <input type="url" id="set-social-x" class="oneui-input" dir="ltr" placeholder="https://x.com/...">
                 </div>
                 <div class="form-group">
                   <label for="set-social-fb">رابط صفحة Facebook</label>
-                  <input type="url" id="set-social-fb" class="glass-input" dir="ltr" placeholder="https://facebook.com/...">
+                  <input type="url" id="set-social-fb" class="oneui-input" dir="ltr" placeholder="https://facebook.com/...">
                 </div>
               </div>
             </div>
           </details>
 
-          <!-- القسم المنسدل 3: مفاتيح النظام السحابية وربط الـ SaaS -->
-          <details class="settings-accordion glass-surface">
+          <!-- المجموعة (3): الإعلان الاحتياطي السريع (Quick Fallback Ad Banner) -->
+          <details class="settings-accordion oneui-surface">
             <summary class="accordion-header">
               <div class="accordion-title-wrap">
-                <span class="material-symbols-rounded" translate="no">vpn_key</span>
+                <div class="setting-squircle amber-tint">
+                  <span class="material-symbols-rounded" translate="no">workspace_premium</span>
+                </div>
                 <div>
-                  <h3>3. مفاتيح السحابة ورفع الصور (ImgBB) وإعدادات نقل النظام (SaaS)</h3>
+                  <h3>3. الإعلان الاحتياطي السريع في أعلى الموقع (Fallback Sponsor Bar)</h3>
+                  <p>شريط رعاية نصي سريع يظهر أعلى الصفحة الرئيسية عند عدم وجود حملة إعلانية مخصصة</p>
+                </div>
+              </div>
+              <span class="material-symbols-rounded accordion-arrow" translate="no">expand_more</span>
+            </summary>
+
+            <div class="accordion-body">
+              <label class="oneui-switch-row">
+                <div class="switch-text">
+                  <strong>تفعيل شريط الإعلان الاحتياطي السريع</strong>
+                  <span>يظهر تلقائياً في الموقع العام إذا لم تكن هناك حملة نشطة في موضع الترويسة</span>
+                </div>
+                <input type="checkbox" id="set-ads-enabled" class="oneui-toggle">
+              </label>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="set-custom-ad-text">نص الإعلان السريع أو رسالة الرعاية</label>
+                  <input type="text" id="set-custom-ad-text" class="oneui-input" placeholder="مثال: للإعلان والرعاية الرسمية على شبكة البوصلة تواصل معنا الآن">
+                </div>
+                <div class="form-group">
+                  <label for="set-custom-ad-link">رابط التوجيه عند النقر على الإعلان السريع</label>
+                  <input type="url" id="set-custom-ad-link" class="oneui-input" dir="ltr" placeholder="https://wa.me/...">
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- المجموعة (4): مفاتيح السحابة ورفع الصور (ImgBB) وإعدادات نقل النظام (SaaS) -->
+          <details class="settings-accordion oneui-surface">
+            <summary class="accordion-header">
+              <div class="accordion-title-wrap">
+                <div class="setting-squircle purple-tint">
+                  <span class="material-symbols-rounded" translate="no">vpn_key</span>
+                </div>
+                <div>
+                  <h3>4. مفاتيح السحابة (ImgBB) وإعدادات نقل النظام وصيانة الكاش (SaaS)</h3>
                   <p>تُحفظ مفاتيح الرفع بأمان داخل غرفة العمليات دون كشفها للزوار</p>
                 </div>
               </div>
@@ -836,18 +985,29 @@
             <div class="accordion-body">
               <div class="form-group">
                 <label for="set-imgbb-key">مفتاح رفع الصور السحابي (ImgBB API Key)</label>
-                <input type="password" id="set-imgbb-key" class="glass-input" dir="ltr" placeholder="أدخل مفتاح ImgBB لتفعيل الرفع المباشر للصور...">
+                <input type="password" id="set-imgbb-key" class="oneui-input" dir="ltr" placeholder="أدخل مفتاح ImgBB لتفعيل الرفع السحابي المباشر للصور...">
               </div>
 
               <div class="form-group">
                 <label for="set-custom-firebase-json">إعدادات Firebase المخصصة بصيغة JSON (اختياري — لنقل المنصة لعميل جديد)</label>
-                <textarea id="set-custom-firebase-json" class="glass-input" dir="ltr" rows="4" placeholder='{"apiKey":"...","authDomain":"...","projectId":"..."}'></textarea>
+                <textarea id="set-custom-firebase-json" class="oneui-input" dir="ltr" rows="4" placeholder='{"apiKey":"...","authDomain":"...","projectId":"..."}'></textarea>
+              </div>
+
+              <div class="maintenance-box">
+                <div>
+                  <strong>تحديث الكاش المحلي الفوري</strong>
+                  <p class="panel-subtitle">في حال قمت بتغيير الشعارات وأردت تفريغ الكاش المخزن في متصفحك الحالي</p>
+                </div>
+                <button type="button" id="clear-local-cache-btn" class="secondary-btn" onclick="localStorage.removeItem('bosla_public_settings_final_v3'); alert('تم مسح الكاش المحلي بنجاح، سيتم تحديث الهوية.');">
+                  <span class="material-symbols-rounded" translate="no">Cleaning_services</span>
+                  <span>مسح كاش المتصفح</span>
+                </button>
               </div>
             </div>
           </details>
 
-          <div class="form-actions-bar sticky-save-bar glass-surface">
-            <button type="submit" id="save-settings-btn" class="primary-btn">
+          <div class="form-actions-bar sticky-save-bar oneui-glass-bar">
+            <button type="submit" id="save-settings-btn" class="primary-btn lg-btn">
               <span class="material-symbols-rounded" translate="no">verified</span>
               <span>حفظ وتعميم كافة الإعدادات السيادية الآن</span>
             </button>
@@ -857,16 +1017,43 @@
       </section>
 
     </main>
+
+    <!-- =====================================================================
+         شريط التنقل السفلي العائم للهواتف بأسلوب Samsung One UI 9 Dock
+         ===================================================================== -->
+    <nav class="oneui-bottom-dock oneui-glass-bar" aria-label="التنقل السريع في غرفة العمليات">
+      <button type="button" class="dock-btn" onclick="document.querySelector('[data-tab=tab-dashboard]')?.click()">
+        <span class="material-symbols-rounded" translate="no">space_dashboard</span>
+        <span>القيادة</span>
+      </button>
+      <button type="button" class="dock-btn" onclick="document.querySelector('[data-tab=tab-editor]')?.click()">
+        <span class="material-symbols-rounded" translate="no">edit_square</span>
+        <span>المحرر</span>
+      </button>
+      <button type="button" class="dock-btn" onclick="document.querySelector('[data-tab=tab-staff]')?.click()">
+        <span class="material-symbols-rounded" translate="no">badge</span>
+        <span>الكادر</span>
+      </button>
+      <button type="button" class="dock-btn" onclick="document.querySelector('[data-tab=tab-profile]')?.click()">
+        <span class="material-symbols-rounded" translate="no">account_circle</span>
+        <span>بطاقتي</span>
+      </button>
+      <button type="button" class="dock-btn" onclick="document.querySelector('[data-tab=tab-settings]')?.click()">
+        <span class="material-symbols-rounded" translate="no">tune</span>
+        <span>الإعدادات</span>
+      </button>
+    </nav>
+
   </div>
 
   <!-- =====================================================================
        3. نافذة معاينة وثيقة الهوية (KYC Document Modal) + إشعارات النظام
        ===================================================================== -->
   <div id="kyc-preview-modal" class="modal-backdrop hidden">
-    <div class="modal-card glass-surface">
+    <div class="modal-card oneui-surface">
       <div class="modal-header">
         <h3 id="modal-kyc-title">معاينة وثيقة إثبات الهوية</h3>
-        <button type="button" id="close-kyc-modal-btn" class="icon-btn sm-btn">
+        <button type="button" id="close-kyc-modal-btn" class="icon-circle-btn">
           <span class="material-symbols-rounded" translate="no">close</span>
         </button>
       </div>
