@@ -1,46 +1,53 @@
 /* ==========================================================================
-   شبكة البوصلة الإخبارية — تصميم غرفة العمليات المركزية (Dark & Light Glass)
+   شبكة البوصلة الإخبارية — غرفة العمليات المركزية (Samsung One UI 9 + Glass)
    ========================================================================== */
 
 :root,
 [data-theme="dark"] {
-  --bg-main: #070b14;
-  --bg-gradient: radial-gradient(circle at 12% 15%, rgba(59, 130, 246, 0.14), transparent 40%),
-                 radial-gradient(circle at 88% 85%, rgba(16, 185, 129, 0.08), transparent 45%);
-  --glass-bg: rgba(15, 23, 42, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --glass-highlight: rgba(255, 255, 255, 0.04);
-  --input-bg: rgba(9, 14, 26, 0.72);
+  --bg-main: #060a12;
+  --bg-ambient: radial-gradient(circle at 18% 12%, rgba(59, 130, 246, 0.14), transparent 38%),
+                radial-gradient(circle at 82% 85%, rgba(37, 99, 235, 0.1), transparent 42%);
+  --surface-bg: rgba(17, 24, 39, 0.86);
+  --surface-elevated: rgba(30, 41, 59, 0.65);
+  --glass-bar-bg: rgba(11, 17, 30, 0.82);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(59, 130, 246, 0.65);
+  --input-bg: rgba(9, 13, 24, 0.85);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.35);
+  --accent-hover: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.32);
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
   --verified-blue: #38bdf8;
-  --shadow-lg: 0 18px 42px -10px rgba(0, 0, 0, 0.6);
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --radius-sm: 10px;
+  --oneui-radius-xl: 26px;
+  --oneui-radius-lg: 20px;
+  --oneui-radius-md: 16px;
+  --oneui-radius-sm: 12px;
+  --shadow-oneui: 0 18px 40px -12px rgba(0, 0, 0, 0.55);
 }
 
 [data-theme="light"] {
-  --bg-main: #f1f5f9;
-  --bg-gradient: radial-gradient(circle at 12% 15%, rgba(59, 130, 246, 0.08), transparent 40%),
-                 radial-gradient(circle at 88% 85%, rgba(16, 185, 129, 0.06), transparent 45%);
-  --glass-bg: rgba(255, 255, 255, 0.88);
-  --glass-border: rgba(15, 23, 42, 0.1);
-  --glass-highlight: rgba(15, 23, 42, 0.04);
-  --input-bg: rgba(248, 250, 252, 0.95);
+  --bg-main: #f2f4f8;
+  --bg-ambient: radial-gradient(circle at 18% 12%, rgba(59, 130, 246, 0.08), transparent 38%),
+                radial-gradient(circle at 82% 85%, rgba(14, 165, 233, 0.06), transparent 42%);
+  --surface-bg: rgba(255, 255, 255, 0.94);
+  --surface-elevated: rgba(241, 245, 249, 0.9);
+  --glass-bar-bg: rgba(255, 255, 255, 0.86);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-focus: rgba(37, 99, 235, 0.6);
+  --input-bg: #f8fafc;
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #64748b;
   --accent: #2563eb;
-  --accent-glow: rgba(37, 99, 235, 0.25);
+  --accent-hover: #1d4ed8;
+  --accent-glow: rgba(37, 99, 235, 0.22);
   --verified-blue: #0284c7;
-  --shadow-lg: 0 12px 32px -8px rgba(15, 23, 42, 0.08);
+  --shadow-oneui: 0 10px 30px -8px rgba(15, 23, 42, 0.07);
 }
 
 * {
@@ -50,16 +57,21 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Cairo', 'Tajawal', sans-serif;
   background-color: var(--bg-main);
-  background-image: var(--bg-gradient);
+  background-image: var(--bg-ambient);
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.65;
   min-height: 100vh;
-  padding-bottom: 60px;
+  padding-bottom: 105px;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .hidden {
@@ -68,20 +80,29 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1260px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
-.glass-surface {
-  background: var(--glass-bg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
+/* أسطح One UI 9 الزجاجية والصلبة الناعمة */
+.oneui-surface {
+  background: var(--surface-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--oneui-radius-xl);
+  box-shadow: var(--shadow-oneui);
 }
 
-/* ==================== بوابة تسجيل الدخول ==================== */
+.oneui-glass-bar {
+  background: var(--glass-bar-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==================== 1. بوابة المصادقة (One UI Login) ==================== */
 .auth-screen {
   min-height: 100vh;
   display: flex;
@@ -92,30 +113,32 @@ body {
 
 .auth-card {
   width: 100%;
-  max-width: 450px;
-  padding: 32px 26px;
-  border-radius: var(--radius-lg);
+  max-width: 440px;
+  padding: 36px 28px;
   text-align: center;
 }
 
 .auth-logo {
-  height: 58px;
+  height: 60px;
   width: auto;
-  max-width: 200px;
+  max-width: 190px;
   object-fit: contain;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
   display: block;
   transition: opacity 0.25s ease;
 }
 
+.oneui-chip,
 .badge-pill {
-  display: inline-block;
-  background: rgba(59, 130, 246, 0.16);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(59, 130, 246, 0.14);
   color: var(--accent);
-  border: 1px solid rgba(59, 130, 246, 0.32);
+  border: 1px solid rgba(59, 130, 246, 0.28);
   padding: 4px 12px;
   border-radius: 99px;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 800;
 }
 
@@ -126,9 +149,9 @@ body {
 }
 
 .auth-subtitle {
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .google-auth-btn {
@@ -137,13 +160,13 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-highlight);
+  padding: 13px 18px;
+  border-radius: var(--oneui-radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -151,13 +174,11 @@ body {
 
 .google-auth-btn:hover {
   border-color: var(--accent);
-  background: rgba(59, 130, 246, 0.12);
+  transform: translateY(-1px);
 }
 
 .auth-divider {
   margin: 18px 0;
-  position: relative;
-  text-align: center;
   font-size: 0.8rem;
   color: var(--text-muted);
 }
@@ -171,16 +192,16 @@ body {
 
 .auth-error {
   margin-top: 14px;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  background: rgba(239, 68, 68, 0.15);
+  padding: 12px;
+  border-radius: var(--oneui-radius-sm);
+  background: rgba(239, 68, 68, 0.14);
   border: 1px solid rgba(239, 68, 68, 0.35);
-  color: #fca5a5;
+  color: var(--danger);
   font-size: 0.84rem;
   font-weight: 700;
 }
 
-/* ==================== الترويسة وشريط التبويبات ==================== */
+/* ==================== 2. الترويسة العلوية النقية (بدون تداخل أو قص) ==================== */
 .admin-header {
   position: sticky;
   top: 0;
@@ -194,23 +215,32 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 70px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   gap: 12px;
 }
 
-.header-right,
-.header-left {
+.header-identity {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
 }
 
 .brand-logo {
   height: 42px;
   width: auto;
-  max-width: 150px;
+  max-width: 125px;
   object-fit: contain;
+  flex-shrink: 0;
   transition: opacity 0.25s ease;
+}
+
+.brand-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .brand-title-row {
@@ -223,25 +253,90 @@ body {
 .brand-title {
   font-size: 1.05rem;
   font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand-subtitle {
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  text-align: right;
 }
 
 .role-badge {
-  font-size: 0.72rem;
+  font-size: 0.71rem;
   font-weight: 800;
   padding: 2px 10px;
   border-radius: 99px;
   background: rgba(16, 185, 129, 0.16);
   color: var(--success);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  border: 1px solid rgba(16, 185, 129, 0.32);
+  white-space: nowrap;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.oneui-pill-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 99px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--accent-glow);
+  white-space: nowrap;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.oneui-pill-action:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.icon-circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.icon-circle-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.danger-circle-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* شريط التبويبات الكبسولي */
 .admin-tabs-bar {
-  border-top: 1px solid var(--glass-border);
+  border-top: 1px solid var(--border-subtle);
   padding: 8px 0;
 }
 
@@ -251,6 +346,7 @@ body {
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
+  padding: 2px 2px;
 }
 
 .tabs-scroll::-webkit-scrollbar {
@@ -260,78 +356,119 @@ body {
 .admin-tab-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 15px;
+  gap: 7px;
+  padding: 8px 16px;
   border-radius: 99px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-highlight);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
   color: var(--text-secondary);
   font-family: inherit;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 800;
   white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.admin-tab-btn .material-symbols-rounded {
+  font-size: 19px;
 }
 
 .admin-tab-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: #ffffff;
   box-shadow: 0 4px 14px var(--accent-glow);
 }
 
 .notif-counter {
   background: var(--danger);
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 900;
   padding: 1px 7px;
   border-radius: 99px;
 }
 
-/* ==================== الإحصائيات والبطاقات الإدارية ==================== */
+/* ==================== 3. بطاقات الإحصائيات ومساحة العمل ==================== */
 .admin-main {
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 22px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .stat-card {
-  padding: 18px 20px;
-  border-radius: var(--radius-md);
+  padding: 18px;
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.stat-icon {
-  font-size: 34px;
-  color: var(--accent);
-  background: rgba(59, 130, 246, 0.14);
-  padding: 12px;
-  border-radius: 14px;
+.stat-icon-box,
+.setting-squircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.blue-tint {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.green-tint {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.red-tint {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.amber-tint {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.purple-tint {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
 }
 
 .stat-label {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
+  font-weight: 700;
 }
 
 .stat-value {
-  font-size: 1.55rem;
+  font-size: 1.5rem;
   font-weight: 900;
   line-height: 1.2;
 }
 
-.panel-card {
+.oneui-card {
   padding: 24px;
-  border-radius: var(--radius-lg);
+}
+
+.card-header-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .panel-header-row {
@@ -340,35 +477,66 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-head-icon {
+  font-size: 28px;
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.12);
+  padding: 10px;
+  border-radius: 14px;
 }
 
 .panel-title {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 900;
 }
 
 .panel-subtitle {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
 }
 
-.filter-controls {
+.filter-bar-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 10px;
+}
+
+.search-field-wrap {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+}
+
+.search-field-wrap .material-symbols-rounded {
+  position: absolute;
+  right: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-field-wrap .oneui-input {
+  padding-right: 40px;
 }
 
 .admin-grid-2 {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: 22px;
+  gap: 20px;
   align-items: start;
 }
 
-/* ==================== النماذج والحقول والأزرار ==================== */
+/* ==================== 4. الحقول، الأدوات، ومفاتيح One UI 9 الانزلاقية ==================== */
 .admin-form {
   display: flex;
   flex-direction: column;
@@ -394,33 +562,28 @@ body {
 }
 
 .form-group label {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: var(--text-secondary);
+  padding-right: 4px;
 }
 
-.glass-input {
+.oneui-input {
   width: 100%;
-  padding: 11px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--glass-border);
+  padding: 12px 15px;
+  border-radius: var(--oneui-radius-md);
+  border: 1px solid var(--border-subtle);
   background: var(--input-bg);
   color: var(--text-primary);
   font-family: inherit;
   font-size: 0.92rem;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.glass-input:focus {
+.oneui-input:focus {
   border-color: var(--accent);
-}
-
-.sm-input {
-  width: auto;
-  min-width: 160px;
-  padding: 8px 12px;
-  font-size: 0.84rem;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .content-textarea {
@@ -433,19 +596,19 @@ body {
   flex-wrap: wrap;
   gap: 6px;
   padding: 8px;
-  border-radius: var(--radius-sm);
-  background: var(--glass-highlight);
-  border: 1px solid var(--glass-border);
+  border-radius: var(--oneui-radius-md);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
 }
 
 .tool-btn {
-  padding: 5px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
   background: var(--input-bg);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -464,42 +627,125 @@ body {
 .upload-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  background: rgba(59, 130, 246, 0.16);
-  border: 1px solid rgba(59, 130, 246, 0.35);
+  padding: 11px 16px;
+  border-radius: var(--oneui-radius-md);
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.32);
   color: var(--accent);
   font-size: 0.84rem;
   font-weight: 800;
   white-space: nowrap;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .conditional-box {
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  background: rgba(59, 130, 246, 0.07);
+  padding: 16px;
+  border-radius: var(--oneui-radius-md);
+  background: rgba(59, 130, 246, 0.06);
   border: 1px dashed rgba(59, 130, 246, 0.35);
 }
 
-.switches-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+/* مفتاح تبديل جالاكسي الحقيقي (Samsung One UI 9 Toggle Switch) */
+.switches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.switch-pill {
-  display: inline-flex;
+.oneui-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--oneui-radius-lg);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+
+.switch-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.switch-text strong {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.switch-text span {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.oneui-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 50px;
+  height: 28px;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.35);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.oneui-toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.oneui-toggle:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.oneui-toggle:checked::after {
+  transform: translateX(22px);
+}
+
+.color-picker-row {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  background: var(--glass-highlight);
-  border: 1px solid var(--glass-border);
-  font-size: 0.86rem;
-  font-weight: 700;
+}
+
+.color-swatch-input {
+  width: 46px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
   cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.maintenance-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--oneui-radius-md);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
 }
 
 .form-actions-bar {
@@ -514,8 +760,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 22px;
-  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  border-radius: 99px;
   border: none;
   background: var(--accent);
   color: #fff;
@@ -524,57 +770,40 @@ body {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 6px 18px var(--accent-glow);
-  transition: transform 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease;
 }
 
 .primary-btn:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
+}
+
+.lg-btn {
+  padding: 14px 28px;
+  font-size: 0.96rem;
 }
 
 .secondary-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-highlight);
+  padding: 10px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   cursor: pointer;
-}
-
-.sm-pill-btn {
-  padding: 8px 14px;
-  border-radius: 99px;
-  font-size: 0.82rem;
 }
 
 .full-width {
   width: 100%;
 }
 
-.icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-highlight);
-  color: var(--text-primary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.danger-icon-btn:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-/* ==================== قوائم العناصر الإدارية (Posts / Ads / Staff / KYC) ==================== */
+/* ==================== 5. قوائم العناصر الإدارية ==================== */
 .admin-items-list {
   display: flex;
   flex-direction: column;
@@ -587,10 +816,10 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  background: var(--glass-highlight);
-  border: 1px solid var(--glass-border);
+  padding: 16px;
+  border-radius: var(--oneui-radius-lg);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
 }
 
 .item-main-info {
@@ -598,21 +827,21 @@ body {
   align-items: center;
   gap: 12px;
   flex: 1;
-  min-width: 240px;
+  min-width: 230px;
 }
 
 .item-thumb {
-  width: 58px;
-  height: 58px;
-  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
   object-fit: cover;
   background: #1e293b;
   flex-shrink: 0;
 }
 
 .item-avatar {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--accent);
@@ -620,7 +849,7 @@ body {
 }
 
 .item-title {
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 800;
   line-height: 1.4;
 }
@@ -646,14 +875,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
+  padding: 7px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
   background: var(--input-bg);
   color: var(--text-primary);
   font-family: inherit;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
@@ -680,20 +909,20 @@ body {
   vertical-align: middle;
 }
 
-/* ==================== الملف الشخصي، التوثيق، والقوائم المنسدلة للإعدادات ==================== */
+/* ==================== 6. بطاقات الإعدادات المنسدلة (One UI 9 Accordions) ==================== */
 .profile-preview-banner {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px;
-  border-radius: var(--radius-md);
-  background: var(--glass-highlight);
-  border: 1px solid var(--glass-border);
+  border-radius: var(--oneui-radius-lg);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
 }
 
 .profile-avatar-lg {
-  width: 74px;
-  height: 74px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--accent);
@@ -706,16 +935,15 @@ body {
 }
 
 .kyc-status-box {
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--glass-highlight);
+  padding: 14px 18px;
+  border-radius: var(--oneui-radius-md);
+  background: var(--surface-elevated);
   border-right: 4px solid var(--accent);
   margin-bottom: 16px;
   font-size: 0.9rem;
 }
 
 .settings-accordion {
-  border-radius: var(--radius-lg);
   margin-bottom: 16px;
   overflow: hidden;
 }
@@ -725,7 +953,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 22px;
+  padding: 20px 22px;
   cursor: pointer;
   user-select: none;
 }
@@ -737,17 +965,12 @@ body {
 .accordion-title-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.accordion-title-wrap .material-symbols-rounded {
-  font-size: 28px;
-  color: var(--accent);
+  gap: 14px;
 }
 
 .accordion-title-wrap h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: 1.02rem;
+  font-weight: 900;
 }
 
 .accordion-title-wrap p {
@@ -755,9 +978,18 @@ body {
   color: var(--text-secondary);
 }
 
+.accordion-arrow {
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+}
+
+details[open] .accordion-arrow {
+  transform: rotate(180deg);
+}
+
 .accordion-body {
-  padding: 20px 22px;
-  border-top: 1px solid var(--glass-border);
+  padding: 20px 22px 24px;
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -765,18 +997,62 @@ body {
 
 .sticky-save-bar {
   position: sticky;
-  bottom: 14px;
-  padding: 14px 20px;
-  border-radius: var(--radius-md);
-  justify-content: flex-end;
-  z-index: 50;
+  bottom: 84px;
+  padding: 14px 22px;
+  border-radius: 99px;
+  justify-content: center;
+  z-index: 60;
+  box-shadow: var(--shadow-oneui);
 }
 
-/* ==================== نافذة معاينة الوثيقة والإشعارات ==================== */
+/* ==================== 7. الشريط السفلي العائم (One UI 9 Bottom Dock) ==================== */
+.oneui-bottom-dock {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 28px);
+  max-width: 500px;
+  height: 64px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+  z-index: 120;
+  box-shadow: var(--shadow-oneui);
+}
+
+.dock-btn {
+  flex: 1;
+  height: 50px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 99px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.dock-btn:hover,
+.dock-btn:active {
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* ==================== 8. نافذة معاينة الوثيقة والإشعارات ==================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -787,8 +1063,7 @@ body {
 .modal-card {
   width: 100%;
   max-width: 560px;
-  padding: 22px;
-  border-radius: var(--radius-lg);
+  padding: 24px;
 }
 
 .modal-header {
@@ -802,12 +1077,12 @@ body {
   width: 100%;
   max-height: 420px;
   object-fit: contain;
-  border-radius: var(--radius-sm);
+  border-radius: var(--oneui-radius-md);
   background: #000;
 }
 
 .empty-state {
-  padding: 28px;
+  padding: 32px 20px;
   text-align: center;
   color: var(--text-secondary);
   font-size: 0.9rem;
@@ -815,24 +1090,30 @@ body {
 
 .admin-toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(15, 23, 42, 0.96);
   color: #fff;
   border: 1px solid var(--accent);
-  padding: 11px 22px;
+  padding: 12px 24px;
   border-radius: 99px;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 800;
   z-index: 300;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-oneui);
+  white-space: nowrap;
 }
 
-/* ==================== التجاوب مع الشاشات ==================== */
+/* ==================== 9. التجاوب الذكي مع الهواتف (Galaxy Mobile Ready) ==================== */
 @media (max-width: 960px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .admin-grid-2,
-  .form-grid-3 {
+  .form-grid-3,
+  .filter-bar-grid,
+  .switches-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -841,11 +1122,26 @@ body {
   .form-grid-2 {
     grid-template-columns: 1fr;
   }
-  .panel-card {
-    padding: 18px;
+  .oneui-card {
+    padding: 18px 16px;
+  }
+  .action-text {
+    display: none;
+  }
+  .oneui-pill-action {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
   }
   .upload-row {
     flex-direction: column;
     align-items: stretch;
+  }
+  .accordion-header {
+    padding: 16px;
+  }
+  .accordion-body {
+    padding: 16px;
   }
 }
