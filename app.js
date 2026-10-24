@@ -1,5 +1,5 @@
 // ============================================================================
-// شبكة البوصلة الإخبارية — محرك غرفة العمليات المركزية (النسخة النهائية المؤمّنة)
+// شبكة البوصلة الإخبارية — محرك غرفة العمليات المركزية (One UI 9 — النسخة النهائية)
 // ============================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -23,7 +23,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 1. إعدادات الاتصال بقاعدة البيانات (مع دعم تخصيص SaaS)
+// 1. إعدادات الاتصال بقاعدة البيانات (مع دعم تخصيص ونقل النظام SaaS)
 const DEFAULT_FIREBASE_CONFIG = {
   apiKey: "AIzaSyAd4Df_Fpp2GlGkRPyvmKuFW68LbL_a4yU",
   authDomain: "rawi-01.firebaseapp.com",
@@ -39,7 +39,14 @@ function getActiveFirebaseConfig() {
     const saved = localStorage.getItem("bosla_custom_firebase_config");
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (parsed && typeof parsed.apiKey === "string" && parsed.apiKey.length > 10 && parsed.projectId) {
+      if (
+        parsed &&
+        typeof parsed === "object" &&
+        typeof parsed.apiKey === "string" &&
+        parsed.apiKey.length > 10 &&
+        typeof parsed.projectId === "string" &&
+        parsed.projectId.length > 2
+      ) {
         return parsed;
       }
     }
@@ -64,7 +71,7 @@ try {
 
 const googleProvider = new GoogleAuthProvider();
 
-// 2. الثوابت، الحسابات السيادية، والأغلفة المدمجة برمجياً (بدون روابط خارجية)
+// 2. الثوابت، الحسابات السيادية، والأغلفة المدمجة برمجياً (بدون أي روابط خارجية)
 const SETTINGS_CACHE_KEY = "bosla_public_settings_final_v3";
 const SOVEREIGN_EMAILS = ["a1hmedrashad@gmail.com", "rawialshamal@gmail.com"];
 
@@ -86,6 +93,17 @@ const ROLE_LEVELS = {
   editor: 2,
   manager: 3,
   sovereign: 4
+};
+
+// الحد الأدنى من الصلاحية المطلوب لفتح كل تبويب
+const TAB_MIN_ROLE = {
+  "tab-dashboard": "writer",
+  "tab-editor": "writer",
+  "tab-profile": "writer",
+  "tab-categories": "manager",
+  "tab-ads": "manager",
+  "tab-staff": "manager",
+  "tab-settings": "sovereign"
 };
 
 const DEFAULT_CATEGORIES = [
@@ -163,6 +181,13 @@ let siteSettings = {
   socialTelegram: "",
   socialX: "",
   socialFacebook: "",
+  adsenseEnabled: false,
+  adsenseClientId: "",
+  adsenseSlotTop: "",
+  adsenseSlotInArticle: "",
+  adsEnabled: false,
+  customAdText: "",
+  customAdLink: "",
   imgbbApiKey: ""
 };
 
@@ -182,7 +207,7 @@ let allAds = [];
 let allStaff = [];
 let allKycRequests = [];
 
-// حارس الصلاحيات البرمجي (RBAC Security Guard)
+// حارس الصلاحيات البرمجي الصارم (RBAC Guard)
 function hasMinRole(minRoleName) {
   const userLevel = ROLE_LEVELS[currentRole] || 1;
   const reqLevel = ROLE_LEVELS[minRoleName] || 1;
@@ -197,7 +222,7 @@ function requireRole(minRoleName, actionLabel = "هذا الإجراء") {
   return true;
 }
 
-// 5. إدارة المظهر، الإشعارات، والهوية البصرية الفورية (بدون وميض الشعار)
+// 5. إدارة المظهر، الإشعارات، والهوية البصرية الفورية
 function initAdminTheme() {
   const saved = localStorage.getItem("bosla_theme") || "dark";
   document.documentElement.setAttribute("data-theme", saved);
@@ -255,7 +280,7 @@ function applyAdminBranding() {
   }
 }
 
-// 6. محرك رفع الصور الذكي (يرفع عبر ImgBB أو يضغط الصورة تلقائياً كـ DataURL عند غياب المفتاح)
+// 6. محرك رفع الصور السحابي الذكي (ImgBB API + ضغط تلقائي مضمون عند غياب المفتاح)
 function compressImageToDataUrl(file, maxWidth = 1100, quality = 0.82) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -311,14 +336,13 @@ async function handleSmartImageUpload(fileInputId, targetUrlInputId, statusSpanI
     }
 
     if (!finalUrl) {
-      // بديل مضمون لا يفشل أبداً: ضغط الصورة وتحويلها لرابط مدمج سريع
       finalUrl = await compressImageToDataUrl(file);
     }
 
     if (urlEl) urlEl.value = finalUrl;
     if (previewImgId && $(previewImgId)) $(previewImgId).src = finalUrl;
     if (statusEl) statusEl.textContent = "تم الرفع ✓";
-    showAdminToast("تم تجهيز ورفع الصورة بنجاح");
+    showAdminToast("✅ تم تجهيز ورفع الصورة بنجاح");
   } catch (err) {
     console.error("Image upload error:", err);
     showAdminToast("تعذر رفع الصورة، يرجى المحاولة مجدداً");
@@ -331,7 +355,7 @@ async function handleSmartImageUpload(fileInputId, targetUrlInputId, statusSpanI
   }
 }
 
-// 7. بوابة المصادقة وتحديد الصلاحيات (Authentication & Role Resolution)
+// 7. بوابة المصادقة والعزل الصارم للصلاحيات (Zero-Flicker Role Isolation)
 async function resolveUserRoleAndProfile(user) {
   const email = (user.email || "").toLowerCase().trim();
   const isSovereign = SOVEREIGN_EMAILS.includes(email);
@@ -388,33 +412,87 @@ async function resolveUserRoleAndProfile(user) {
 }
 
 function applyRoleUIVisibility() {
+  const isEditorOrUp = hasMinRole("editor");
+  const isManagerOrUp = hasMinRole("manager");
+  const isSovereign = hasMinRole("sovereign");
+
   setText("user-role-badge", ROLE_LABELS[currentRole] || ROLE_LABELS.writer);
   setText("user-display-email", currentUser?.email || "");
 
-  // إظهار أو إخفاء التبويبات حسب مستوى الصلاحية
-  $("nav-tab-categories")?.classList.toggle("hidden", !hasMinRole("manager"));
-  $("nav-tab-ads")?.classList.toggle("hidden", !hasMinRole("manager"));
-  $("nav-tab-staff")?.classList.toggle("hidden", !hasMinRole("manager"));
-  $("nav-tab-settings")?.classList.toggle("hidden", !hasMinRole("sovereign"));
+  // 1. إظهار أو إخفاء التبويبات العلوية بصرامة حسب الصلاحية
+  $("nav-tab-categories")?.classList.toggle("hidden", !isManagerOrUp);
+  $("nav-tab-ads")?.classList.toggle("hidden", !isManagerOrUp);
+  $("nav-tab-staff")?.classList.toggle("hidden", !isManagerOrUp);
+  $("nav-tab-settings")?.classList.toggle("hidden", !isSovereign);
+
+  // 2. إظهار أو إخفاء أزرار الشريط السفلي العائم (One UI Bottom Dock)
+  $("dock-btn-ads")?.classList.toggle("hidden", !isManagerOrUp);
+  $("dock-btn-staff")?.classList.toggle("hidden", !isManagerOrUp);
+  $("dock-btn-settings")?.classList.toggle("hidden", !isSovereign);
+
+  // 3. تخصيص واجهة لوحة القيادة والمحرر حسب صلاحية الكاتب أو المحرر
+  $("editor-privileged-switches")?.classList.toggle("hidden", !isEditorOrUp);
+  $("stat-breaking-card")?.classList.toggle("hidden", !isEditorOrUp);
+  $("stat-staff-card")?.classList.toggle("hidden", !isManagerOrUp);
+
+  if (!isEditorOrUp) {
+    // واجهة مخصصة للكاتب الصحفي فقط
+    setText("dashboard-tab-label", "مقالاتي وإحصائياتي");
+    setText("dashboard-panel-title", "مقالاتي وتقاريري الصحفية");
+    setText("dashboard-panel-subtitle", "متابعة وتحرير المقالات والتقارير الخاصة بك");
+    setText("stat-published-label", "مقالاتي المنشورة");
+    setText("stat-views-label", "قراءات مقالاتي");
+  } else {
+    setText("dashboard-tab-label", "القيادة والمواد");
+    setText("dashboard-panel-title", "إدارة المواد الصحفية والتقارير");
+    setText("dashboard-panel-subtitle", "تحكم فوري في النشر، التعديل، الأخبار العاجلة، والمقالات المثبتة");
+    setText("stat-published-label", "المواد المنشورة");
+    setText("stat-views-label", "إجمالي القراءات");
+  }
 
   // تعبئة اسم الكاتب الافتراضي في المحرر
   const authorInput = $("post-author");
-  if (authorInput && !authorInput.value && currentStaffProfile?.name) {
+  if (authorInput && currentStaffProfile?.name) {
     authorInput.value = currentStaffProfile.name;
+    // الكاتب العادي يكتب باسمه المعتمد فقط
+    authorInput.readOnly = !isEditorOrUp;
+  }
+
+  // التأكد من عدم بقاء المستخدم في تبويب لا يملك صلاحيته
+  const activeTabBtn = document.querySelector(".admin-tab-btn.active");
+  const currentTabId = activeTabBtn?.dataset.tab || "tab-dashboard";
+  const reqRole = TAB_MIN_ROLE[currentTabId] || "writer";
+  if (!hasMinRole(reqRole)) {
+    switchAdminTab("tab-dashboard");
   }
 }
 
 function switchAdminTab(tabId) {
+  const minRoleRequired = TAB_MIN_ROLE[tabId] || "writer";
+  if (!hasMinRole(minRoleRequired)) {
+    showAdminToast("⛔ هذا القسم مخصص للإدارة فقط");
+    return;
+  }
+
+  // تحديث حالة أزرار التبويبات العلوية
   document.querySelectorAll(".admin-tab-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.tab === tabId);
   });
+
+  // تحديث حالة أزرار الشريط السفلي (One UI Dock)
+  document.querySelectorAll(".dock-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.dockTab === tabId);
+  });
+
+  // إظهار اللوحة المطلوبة وإخفاء البقية
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("hidden", panel.id !== tabId);
   });
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 8. جلب الإعدادات والأقسام وإدارتها
+// 8. جلب وحفظ الإعدادات السيادية الشاملة (بما فيها AdSense والـ SaaS)
 async function fetchGlobalSettings() {
   try {
     const snap = await getDoc(doc(db, "settings", "global"));
@@ -428,18 +506,30 @@ async function fetchGlobalSettings() {
     console.warn("Settings fetch notice:", err);
   }
   applyAdminBranding();
-  populateSettingsForm();
+  if (hasMinRole("sovereign")) {
+    populateSettingsForm();
+  }
 }
 
 function populateSettingsForm() {
+  if (!hasMinRole("sovereign")) return;
+
   if ($("set-site-name")) $("set-site-name").value = siteSettings.siteName || "";
   if ($("set-network-name")) $("set-network-name").value = siteSettings.networkName || "";
-  if ($("set-accent-color")) $("set-accent-color").value = siteSettings.accentColor || "#3b82f6";
+
+  const accentHex = (siteSettings.accentColor || "#3b82f6").trim();
+  if ($("set-accent-color")) $("set-accent-color").value = accentHex;
+  if ($("set-accent-picker") && /^#[0-9A-Fa-f]{6}$/.test(accentHex)) {
+    $("set-accent-picker").value = accentHex;
+  }
+
   if ($("set-site-desc")) $("set-site-desc").value = siteSettings.siteDesc || "";
   if ($("set-logo-url")) $("set-logo-url").value = siteSettings.logoUrl || "";
   if ($("set-favicon-url")) $("set-favicon-url").value = siteSettings.faviconUrl || "";
+  if ($("set-og-image-url")) $("set-og-image-url").value = siteSettings.ogImageUrl || "";
   if ($("set-hide-text-logo")) $("set-hide-text-logo").checked = siteSettings.hideTextLogo !== false;
 
+  if ($("set-show-about-menu")) $("set-show-about-menu").checked = siteSettings.showAboutMenu !== false;
   if ($("set-about-content")) $("set-about-content").value = siteSettings.aboutContent || "";
   if ($("set-privacy-content")) $("set-privacy-content").value = siteSettings.privacyContent || "";
   if ($("set-contact-email")) $("set-contact-email").value = siteSettings.contactEmail || "";
@@ -449,6 +539,15 @@ function populateSettingsForm() {
   if ($("set-social-tg")) $("set-social-tg").value = siteSettings.socialTelegram || "";
   if ($("set-social-x")) $("set-social-x").value = siteSettings.socialX || "";
   if ($("set-social-fb")) $("set-social-fb").value = siteSettings.socialFacebook || "";
+
+  if ($("set-adsense-enabled")) $("set-adsense-enabled").checked = Boolean(siteSettings.adsenseEnabled);
+  if ($("set-adsense-client-id")) $("set-adsense-client-id").value = siteSettings.adsenseClientId || "";
+  if ($("set-adsense-slot-top")) $("set-adsense-slot-top").value = siteSettings.adsenseSlotTop || "";
+  if ($("set-adsense-slot-inarticle")) $("set-adsense-slot-inarticle").value = siteSettings.adsenseSlotInArticle || "";
+
+  if ($("set-ads-enabled")) $("set-ads-enabled").checked = Boolean(siteSettings.adsEnabled);
+  if ($("set-custom-ad-text")) $("set-custom-ad-text").value = siteSettings.customAdText || "";
+  if ($("set-custom-ad-link")) $("set-custom-ad-link").value = siteSettings.customAdLink || "";
 
   if ($("set-imgbb-key")) {
     $("set-imgbb-key").value = siteSettings.imgbbApiKey || localStorage.getItem("bosla_imgbb_key") || "";
@@ -488,6 +587,7 @@ async function saveGlobalSettings(e) {
 
     const logoClean = sanitizeUrl($("set-logo-url")?.value, "");
     const favClean = sanitizeUrl($("set-favicon-url")?.value, "") || logoClean;
+    const ogClean = sanitizeUrl($("set-og-image-url")?.value, "") || favClean || logoClean;
 
     const updated = {
       siteName: ($("set-site-name")?.value || "بوصلة السياسة اليمنية").trim(),
@@ -496,8 +596,9 @@ async function saveGlobalSettings(e) {
       siteDesc: ($("set-site-desc")?.value || "").trim(),
       logoUrl: logoClean,
       faviconUrl: favClean,
-      ogImageUrl: favClean,
+      ogImageUrl: ogClean,
       hideTextLogo: Boolean($("set-hide-text-logo")?.checked),
+      showAboutMenu: Boolean($("set-show-about-menu")?.checked),
       aboutContent: ($("set-about-content")?.value || "").trim(),
       privacyContent: ($("set-privacy-content")?.value || "").trim(),
       contactEmail: ($("set-contact-email")?.value || "").trim(),
@@ -506,6 +607,13 @@ async function saveGlobalSettings(e) {
       socialTelegram: sanitizeUrl($("set-social-tg")?.value, ""),
       socialX: sanitizeUrl($("set-social-x")?.value, ""),
       socialFacebook: sanitizeUrl($("set-social-fb")?.value, ""),
+      adsenseEnabled: Boolean($("set-adsense-enabled")?.checked),
+      adsenseClientId: ($("set-adsense-client-id")?.value || "").trim(),
+      adsenseSlotTop: ($("set-adsense-slot-top")?.value || "").trim(),
+      adsenseSlotInArticle: ($("set-adsense-slot-inarticle")?.value || "").trim(),
+      adsEnabled: Boolean($("set-ads-enabled")?.checked),
+      customAdText: ($("set-custom-ad-text")?.value || "").trim(),
+      customAdLink: sanitizeUrl($("set-custom-ad-link")?.value, ""),
       imgbbApiKey: imgbbKey,
       updatedAt: serverTimestamp()
     };
@@ -514,7 +622,7 @@ async function saveGlobalSettings(e) {
     siteSettings = { ...siteSettings, ...updated };
     localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(siteSettings));
     applyAdminBranding();
-    showAdminToast("✅ تم حفظ وتعميم الإعدادات السيادية بنجاح");
+    showAdminToast("✅ تم حفظ وتعميم كافة الإعدادات السيادية بنجاح");
   } catch (err) {
     console.error("Save settings error:", err);
     showAdminToast("حدث خطأ أثناء حفظ الإعدادات");
@@ -523,7 +631,7 @@ async function saveGlobalSettings(e) {
   }
 }
 
-// 9. إدارة الأقسام والتصنيفات الفرعية
+// 9. إدارة الأقسام الرئيسية والتصنيفات الفرعية
 async function fetchAdminCategories() {
   try {
     const snap = await getDocs(collection(db, "categories"));
@@ -532,7 +640,6 @@ async function fetchAdminCategories() {
         .map((d) => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
     } else if (hasMinRole("manager")) {
-      // تهيئة الأقسام الافتراضية تلقائياً عند أول تشغيل
       for (const cat of DEFAULT_CATEGORIES) {
         await setDoc(doc(db, "categories", cat.slug), cat);
       }
@@ -542,7 +649,9 @@ async function fetchAdminCategories() {
     console.warn("Categories fetch notice:", err);
   }
   populateCategorySelects();
-  renderCategoriesAdminList();
+  if (hasMinRole("manager")) {
+    renderCategoriesAdminList();
+  }
 }
 
 function populateCategorySelects() {
@@ -590,7 +699,7 @@ function updateEditorSubcategorySelect(selectedSub = "") {
 
 function renderCategoriesAdminList() {
   const listEl = $("categories-admin-list");
-  if (!listEl) return;
+  if (!listEl || !hasMinRole("manager")) return;
 
   if (allCategories.length === 0) {
     listEl.innerHTML = `<div class="empty-state">لا توجد أقسام مسجلة.</div>`;
@@ -599,14 +708,17 @@ function renderCategoriesAdminList() {
 
   listEl.innerHTML = allCategories
     .map((c) => {
-      const subsText = Array.isArray(c.subcategories) && c.subcategories.length > 0
-        ? c.subcategories.join(" ، ")
-        : "بدون فروع";
+      const subsText =
+        Array.isArray(c.subcategories) && c.subcategories.length > 0
+          ? c.subcategories.join(" ، ")
+          : "بدون فروع";
       const safeId = escapeHTML(c.id || c.slug);
       return `
         <div class="admin-item-row">
           <div class="item-main-info">
-            <span class="material-symbols-rounded stat-icon" translate="no" style="font-size:22px;padding:10px;">${escapeHTML(c.icon || "newspaper")}</span>
+            <div class="stat-icon-box blue-tint">
+              <span class="material-symbols-rounded" translate="no">${escapeHTML(c.icon || "newspaper")}</span>
+            </div>
             <div>
               <div class="item-title">${escapeHTML(c.name)} <span class="badge-pill">#${Number(c.order) || 1}</span></div>
               <div class="item-meta">
@@ -627,6 +739,7 @@ function renderCategoriesAdminList() {
 }
 
 window.editCategory = (catId) => {
+  if (!requireRole("manager", "تعديل الأقسام")) return;
   const cat = allCategories.find((c) => (c.id || c.slug) === catId);
   if (!cat) return;
   $("edit-cat-id").value = cat.id || cat.slug;
@@ -644,7 +757,7 @@ window.deleteCategory = async (catId) => {
   if (!confirm("هل أنت متأكد من حذف هذا القسم؟")) return;
   try {
     await deleteDoc(doc(db, "categories", catId));
-    showAdminToast("تم حذف القسم");
+    showAdminToast("🗑️ تم حذف القسم بنجاح");
     await fetchAdminCategories();
   } catch (err) {
     showAdminToast("تعذر حذف القسم");
@@ -731,10 +844,22 @@ async function fetchAdminPosts() {
   renderAdminPostsList();
 }
 
+function getVisiblePostsForCurrentUser() {
+  if (hasMinRole("editor")) return allPosts;
+  const myEmail = (currentUser?.email || "").toLowerCase().trim();
+  const myName = (currentStaffProfile?.name || "").trim();
+  return allPosts.filter((p) => {
+    const postEmail = (p.authorEmail || "").toLowerCase().trim();
+    if (postEmail && myEmail) return postEmail === myEmail;
+    return myName && (p.author || "").trim() === myName;
+  });
+}
+
 function updateDashboardStats() {
-  const publishedCount = allPosts.filter((p) => p.status === "published").length;
-  const totalViews = allPosts.reduce((acc, p) => acc + (Number(p.views) || 0), 0);
-  const breakingCount = allPosts.filter((p) => p.isBreaking && p.status === "published").length;
+  const relevantPosts = getVisiblePostsForCurrentUser();
+  const publishedCount = relevantPosts.filter((p) => (p.status || "published") === "published").length;
+  const totalViews = relevantPosts.reduce((acc, p) => acc + (Number(p.views) || 0), 0);
+  const breakingCount = allPosts.filter((p) => p.isBreaking && (p.status || "published") === "published").length;
 
   setText("stat-published-count", publishedCount);
   setText("stat-total-views", totalViews);
@@ -750,12 +875,9 @@ function renderAdminPostsList() {
   const catFilter = $("admin-posts-cat-filter")?.value || "all";
   const statusFilter = $("admin-posts-status-filter")?.value || "all";
 
-  const filtered = allPosts.filter((p) => {
-    // الكاتب يرى مقالاته، بينما المحرر والمدير والقيادة يرون كافة المقالات
-    if (!hasMinRole("editor")) {
-      const myEmail = (currentUser?.email || "").toLowerCase();
-      if ((p.authorEmail || "").toLowerCase() !== myEmail) return false;
-    }
+  const baseList = getVisiblePostsForCurrentUser();
+
+  const filtered = baseList.filter((p) => {
     if (catFilter !== "all" && p.category !== catFilter) return false;
     if (statusFilter !== "all" && (p.status || "published") !== statusFilter) return false;
     if (q) {
@@ -769,6 +891,8 @@ function renderAdminPostsList() {
     listEl.innerHTML = `<div class="empty-state">لا توجد مواد صحفية مطابقة للبحث الحالي.</div>`;
     return;
   }
+
+  const isEditorOrUp = hasMinRole("editor");
 
   listEl.innerHTML = filtered
     .map((p) => {
@@ -800,7 +924,7 @@ function renderAdminPostsList() {
           <div class="item-actions">
             <button type="button" class="action-chip" onclick="window.editPost('${safeId}')">تعديل</button>
             ${
-              hasMinRole("editor")
+              isEditorOrUp
                 ? `
               <button type="button" class="action-chip" onclick="window.togglePostBreaking('${safeId}')">${p.isBreaking ? "إلغاء العاجل" : "⚡ عاجل"}</button>
               <button type="button" class="action-chip" onclick="window.togglePostStatus('${safeId}')">${isPub ? "تحويل لمسودة" : "نشر الآن"}</button>
@@ -836,6 +960,15 @@ function resetPostEditor() {
 window.editPost = (postId) => {
   const post = allPosts.find((p) => p.id === postId);
   if (!post) return;
+
+  // التحقق من ملكية الكاتب للمقال إذا لم يكن محرراً
+  if (!hasMinRole("editor")) {
+    const myEmail = (currentUser?.email || "").toLowerCase().trim();
+    if ((post.authorEmail || "").toLowerCase().trim() !== myEmail) {
+      showAdminToast("⛔ يمكنك تعديل مقالاتك الخاصة فقط");
+      return;
+    }
+  }
 
   $("edit-post-id").value = post.id;
   $("post-title").value = post.title || "";
@@ -914,6 +1047,17 @@ async function savePostForm(e) {
 
   try {
     const editId = ($("edit-post-id")?.value || "").trim();
+    const existingPost = editId ? allPosts.find((p) => p.id === editId) : null;
+
+    if (editId && !hasMinRole("editor")) {
+      const myEmail = (currentUser?.email || "").toLowerCase().trim();
+      if ((existingPost?.authorEmail || "").toLowerCase().trim() !== myEmail) {
+        showAdminToast("⛔ لا تملك صلاحية تعديل هذا المقال");
+        if (btn) btn.disabled = false;
+        return;
+      }
+    }
+
     const catSlug = $("post-category")?.value || "local";
     const catObj = allCategories.find((c) => c.slug === catSlug);
     const tagsArr = ($("post-tags")?.value || "")
@@ -921,8 +1065,9 @@ async function savePostForm(e) {
       .map((t) => t.trim().replace(/^#/, ""))
       .filter(Boolean);
 
-    // إذا كان العضو كاتباً فقط وأراد النشر، يتم اعتماد بيانات هويته وتوثيقه
-    const isVerifiedAuthor = Boolean(currentStaffProfile?.verified) || SOVEREIGN_EMAILS.includes((currentUser?.email || "").toLowerCase());
+    const isVerifiedAuthor =
+      Boolean(currentStaffProfile?.verified) ||
+      SOVEREIGN_EMAILS.includes((currentUser?.email || "").toLowerCase());
 
     const payload = {
       title: ($("post-title")?.value || "").trim(),
@@ -930,12 +1075,14 @@ async function savePostForm(e) {
       category: catSlug,
       categoryName: catObj ? catObj.name : catSlug,
       subcategory: ($("post-subcategory")?.value || "").trim(),
-      author: ($("post-author")?.value || currentStaffProfile?.name || "هيئة التحرير").trim(),
-      authorEmail: editId
-        ? (allPosts.find((p) => p.id === editId)?.authorEmail || currentUser?.email || "")
-        : (currentUser?.email || ""),
-      authorAvatar: currentStaffProfile?.avatarUrl || "",
-      authorVerified: isVerifiedAuthor,
+      author: hasMinRole("editor")
+        ? ($("post-author")?.value || currentStaffProfile?.name || "هيئة التحرير").trim()
+        : (currentStaffProfile?.name || $("post-author")?.value || "كاتب بالبوصلة").trim(),
+      authorEmail: existingPost
+        ? existingPost.authorEmail || currentUser?.email || ""
+        : currentUser?.email || "",
+      authorAvatar: existingPost?.authorAvatar || currentStaffProfile?.avatarUrl || "",
+      authorVerified: existingPost ? Boolean(existingPost.authorVerified || isVerifiedAuthor) : isVerifiedAuthor,
       summary: ($("post-summary")?.value || "").trim(),
       videoUrl: sanitizeUrl($("post-video-url")?.value, ""),
       podcastUrl: sanitizeUrl($("post-podcast-url")?.value, ""),
@@ -945,8 +1092,8 @@ async function savePostForm(e) {
       content: ($("post-content")?.value || "").trim(),
       tags: tagsArr,
       status: $("post-status")?.value || "published",
-      isBreaking: hasMinRole("editor") ? Boolean($("post-is-breaking")?.checked) : false,
-      isFeatured: hasMinRole("editor") ? Boolean($("post-is-featured")?.checked) : false,
+      isBreaking: hasMinRole("editor") ? Boolean($("post-is-breaking")?.checked) : Boolean(existingPost?.isBreaking),
+      isFeatured: hasMinRole("editor") ? Boolean($("post-is-featured")?.checked) : Boolean(existingPost?.isFeatured),
       updatedAt: serverTimestamp()
     };
 
@@ -957,7 +1104,7 @@ async function savePostForm(e) {
       payload.views = 0;
       payload.createdAt = serverTimestamp();
       await addDoc(collection(db, "posts"), payload);
-      showAdminToast("🚀 تم نشر المادة الصحفية في الموقع العام بنجاح");
+      showAdminToast("🚀 تم نشر المادة الصحفية بنجاح");
     }
 
     resetPostEditor();
@@ -990,8 +1137,9 @@ function applyToolbarMarkdown(mdType) {
   textarea.focus();
 }
 
-// 11. إدارة الرعايات والحملات الإعلانية
+// 11. إدارة الرعايات والحملات الإعلانية الذكية (للمدير والقيادة فقط)
 async function fetchAdminAds() {
+  if (!hasMinRole("manager")) return;
   try {
     const snap = await getDocs(collection(db, "ads"));
     allAds = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
@@ -1003,7 +1151,7 @@ async function fetchAdminAds() {
 
 function renderAdsAdminList() {
   const listEl = $("ads-admin-list");
-  if (!listEl) return;
+  if (!listEl || !hasMinRole("manager")) return;
 
   if (allAds.length === 0) {
     listEl.innerHTML = `<div class="empty-state">لا توجد حملات إعلانية مسجلة حالياً.</div>`;
@@ -1030,6 +1178,7 @@ function renderAdsAdminList() {
           </div>
           <div class="item-actions">
             <button type="button" class="action-chip" onclick="window.editAd('${safeId}')">تعديل</button>
+            <button type="button" class="action-chip" onclick="window.toggleAdActive('${safeId}')">${ad.active !== false ? "إيقاف" : "تفعيل"}</button>
             <button type="button" class="action-chip danger" onclick="window.deleteAd('${safeId}')">حذف</button>
           </div>
         </div>
@@ -1039,6 +1188,7 @@ function renderAdsAdminList() {
 }
 
 window.editAd = (adId) => {
+  if (!requireRole("manager", "تعديل الحملة الإعلانية")) return;
   const ad = allAds.find((a) => a.id === adId);
   if (!ad) return;
   $("edit-ad-id").value = ad.id;
@@ -1052,12 +1202,27 @@ window.editAd = (adId) => {
   setText("ad-form-title", `تعديل الحملة: ${ad.title}`);
 };
 
+window.toggleAdActive = async (adId) => {
+  if (!requireRole("manager", "تغيير حالة الإعلان")) return;
+  const ad = allAds.find((a) => a.id === adId);
+  if (!ad) return;
+  try {
+    const nextActive = ad.active === false;
+    await updateDoc(doc(db, "ads", adId), { active: nextActive });
+    ad.active = nextActive;
+    renderAdsAdminList();
+    showAdminToast(nextActive ? "🟢 تم تفعيل الحملة الإعلانية" : "🔴 تم إيقاف الحملة الإعلانية");
+  } catch (e) {
+    showAdminToast("تعذر تحديث حالة الحملة");
+  }
+};
+
 window.deleteAd = async (adId) => {
   if (!requireRole("manager", "حذف إعلان")) return;
   if (!confirm("هل تريد حذف هذه الحملة الإعلانية؟")) return;
   try {
     await deleteDoc(doc(db, "ads", adId));
-    showAdminToast("تم حذف الحملة الإعلانية");
+    showAdminToast("🗑️ تم حذف الحملة الإعلانية");
     await fetchAdminAds();
   } catch (err) {
     showAdminToast("تعذر حذف الحملة");
@@ -1105,29 +1270,40 @@ async function saveAdForm(e) {
 
 // 12. إدارة الكادر الصحفي، الصلاحيات، ومراجعة طلبات توثيق الهوية (KYC)
 async function fetchAdminStaffAndKyc() {
-  try {
-    const staffSnap = await getDocs(collection(db, "staff"));
-    allStaff = staffSnap.docs.map((d) => ({ id: d.id, email: d.id, ...d.data() }));
-  } catch (err) {
-    console.warn("Staff fetch notice:", err);
-  }
+  const myEmail = (currentUser?.email || "").toLowerCase().trim();
 
-  try {
-    const kycSnap = await getDocs(collection(db, "kyc_requests"));
-    allKycRequests = kycSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-  } catch (err) {
-    console.warn("KYC fetch notice:", err);
+  if (hasMinRole("manager")) {
+    try {
+      const staffSnap = await getDocs(collection(db, "staff"));
+      allStaff = staffSnap.docs.map((d) => ({ id: d.id, email: d.id, ...d.data() }));
+    } catch (err) {
+      console.warn("Staff fetch notice:", err);
+    }
+
+    try {
+      const kycSnap = await getDocs(collection(db, "kyc_requests"));
+      allKycRequests = kycSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    } catch (err) {
+      console.warn("KYC fetch notice:", err);
+    }
+
+    renderStaffAdminList();
+    renderKycRequestsList();
+  } else if (myEmail) {
+    // الكاتب أو المحرر يجلب فقط حالة طلب التوثيق الخاص به دون كشف وثائق الآخرين
+    try {
+      const myKycSnap = await getDoc(doc(db, "kyc_requests", myEmail));
+      allKycRequests = myKycSnap.exists() ? [{ id: myEmail, email: myEmail, ...myKycSnap.data() }] : [];
+    } catch (e) {}
   }
 
   updateDashboardStats();
-  renderStaffAdminList();
-  renderKycRequestsList();
   populateMyProfileTab();
 }
 
 function renderStaffAdminList() {
   const listEl = $("staff-admin-list");
-  if (!listEl) return;
+  if (!listEl || !hasMinRole("manager")) return;
 
   if (allStaff.length === 0) {
     listEl.innerHTML = `<div class="empty-state">لا يوجد أعضاء مسجلون بعد.</div>`;
@@ -1174,6 +1350,7 @@ function renderStaffAdminList() {
 }
 
 window.editStaffMember = (emailKey) => {
+  if (!requireRole("manager", "تعديل بيانات الكادر")) return;
   const member = allStaff.find((s) => (s.email || s.id || "").toLowerCase() === emailKey.toLowerCase());
   if (!member) return;
   $("staff-email").value = emailKey;
@@ -1240,7 +1417,7 @@ async function saveStaffForm(e) {
 function renderKycRequestsList() {
   const listEl = $("kyc-requests-list");
   const badgeEl = $("kyc-pending-badge");
-  if (!listEl) return;
+  if (!listEl || !hasMinRole("manager")) return;
 
   const pendingList = allKycRequests.filter((r) => r.status === "pending");
   if (badgeEl) {
@@ -1259,7 +1436,9 @@ function renderKycRequestsList() {
       return `
         <div class="admin-item-row">
           <div class="item-main-info">
-            <span class="material-symbols-rounded stat-icon" translate="no">badge</span>
+            <div class="stat-icon-box purple-tint">
+              <span class="material-symbols-rounded" translate="no">badge</span>
+            </div>
             <div>
               <div class="item-title">${escapeHTML(req.fullLegalName || req.displayName || safeEmail)}</div>
               <div class="item-meta">
@@ -1281,6 +1460,7 @@ function renderKycRequestsList() {
 }
 
 window.previewKycDoc = (emailKey) => {
+  if (!requireRole("manager", "معاينة وثائق الهوية")) return;
   const req = allKycRequests.find((r) => (r.email || r.id || "").toLowerCase() === emailKey.toLowerCase());
   if (!req) return;
   if ($("modal-kyc-img")) $("modal-kyc-img").src = sanitizeUrl(req.docUrl, BLANK_SURFACE_SVG);
@@ -1331,13 +1511,19 @@ window.rejectKycRequest = async (emailKey) => {
 function populateMyProfileTab() {
   if (!currentUser) return;
   const emailKey = (currentUser.email || "").toLowerCase();
-  const myDoc = allStaff.find((s) => (s.email || s.id || "").toLowerCase() === emailKey) || currentStaffProfile || {};
+  const myDoc =
+    allStaff.find((s) => (s.email || s.id || "").toLowerCase() === emailKey) ||
+    currentStaffProfile ||
+    {};
   const isVer = SOVEREIGN_EMAILS.includes(emailKey) || Boolean(myDoc.verified);
 
   const avatar = sanitizeUrl(myDoc.avatarUrl || siteSettings.faviconUrl, BLANK_AVATAR_SVG);
   if ($("my-profile-avatar-preview")) $("my-profile-avatar-preview").src = avatar;
   setText("my-profile-name-preview", myDoc.name || emailKey);
-  setText("my-profile-role-preview", `${ROLE_LABELS[currentRole] || ""} — ${myDoc.jobTitle || "عضو هيئة التحرير"}`);
+  setText(
+    "my-profile-role-preview",
+    `${ROLE_LABELS[currentRole] || ""} — ${myDoc.jobTitle || "عضو هيئة التحرير"}`
+  );
   $("my-profile-verified-icon")?.classList.toggle("hidden", !isVer);
 
   if ($("my-name")) $("my-name").value = myDoc.name || "";
@@ -1378,6 +1564,9 @@ async function saveMyProfileForm(e) {
   try {
     await setDoc(doc(db, "staff", emailKey), payload, { merge: true });
     currentStaffProfile = { ...currentStaffProfile, ...payload };
+    if ($("post-author") && !hasMinRole("editor")) {
+      $("post-author").value = payload.name;
+    }
     showAdminToast("✅ تم تحديث بطاقتك الصحفية العامة بنجاح");
     await fetchAdminStaffAndKyc();
   } catch (err) {
@@ -1435,7 +1624,10 @@ function bindAdminEvents() {
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (err) {
-      setText("auth-error-msg", "تعذر تسجيل الدخول عبر Google، تأكد من السماحبالنوافذ المنبثقة أو استخدم البريد.");
+      setText(
+        "auth-error-msg",
+        "تعذر تسجيل الدخول عبر Google، تأكد من السماح بالنوافذ المنبثقة أو استخدم البريد."
+      );
       $("auth-error-msg")?.classList.remove("hidden");
     }
   });
@@ -1460,9 +1652,13 @@ function bindAdminEvents() {
     showAdminToast("تم تسجيل الخروج بأمان");
   });
 
-  // التنقل بين التبويبات
+  // التنقل بين التبويبات العلوية والشريط السفلي (One UI Dock)
   document.querySelectorAll(".admin-tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => switchAdminTab(btn.dataset.tab));
+  });
+
+  document.querySelectorAll(".dock-btn").forEach((btn) => {
+    btn.addEventListener("click", () => switchAdminTab(btn.dataset.dockTab));
   });
 
   safeOn("quick-new-post-btn", "click", () => {
@@ -1485,7 +1681,24 @@ function bindAdminEvents() {
     btn.addEventListener("click", () => applyToolbarMarkdown(btn.dataset.md));
   });
 
-  // ربط أزرار الرفع السحابي للصور والوثائق في كافة التبويبات
+  // مزامنة منتقي اللون السيادي (Color Picker)
+  safeOn("set-accent-picker", "input", (e) => {
+    if ($("set-accent-color")) $("set-accent-color").value = e.target.value;
+  });
+  safeOn("set-accent-color", "input", (e) => {
+    const val = (e.target.value || "").trim();
+    if (/^#[0-9A-Fa-f]{6}$/.test(val) && $("set-accent-picker")) {
+      $("set-accent-picker").value = val;
+    }
+  });
+
+  // زر مسح الكاش المحلي
+  safeOn("clear-local-cache-btn", "click", () => {
+    localStorage.removeItem(SETTINGS_CACHE_KEY);
+    showAdminToast("🧹 تم مسح الكاش المحلي وتحديث الهوية الفورية");
+  });
+
+  // ربط أزرار الرفع السحابي للصور والوثائق والشعارات
   safeOn("post-image-file", "change", () =>
     handleSmartImageUpload("post-image-file", "post-image-url", "post-upload-status")
   );
@@ -1507,8 +1720,11 @@ function bindAdminEvents() {
   safeOn("set-favicon-file", "change", () =>
     handleSmartImageUpload("set-favicon-file", "set-favicon-url", "favicon-upload-status")
   );
+  safeOn("set-og-image-file", "change", () =>
+    handleSmartImageUpload("set-og-image-file", "set-og-image-url", "og-upload-status")
+  );
 
-  // نماذج الأقسام، الإعلانات، الكادر، الملف الشخصي، والإعدادات
+  // حفظ النماذج
   safeOn("category-form", "submit", saveCategoryForm);
   safeOn("reset-cat-btn", "click", resetCategoryForm);
 
@@ -1532,7 +1748,7 @@ function bindAdminEvents() {
   });
 }
 
-// مراقب حالة الجلسة وتحميل البيانات
+// مراقب حالة الجلسة وتحميل البيانات حسب صلاحية العضو فقط
 function initAdminApp() {
   bindAdminEvents();
   fetchGlobalSettings();
@@ -1540,22 +1756,28 @@ function initAdminApp() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
-      $("auth-screen")?.classList.add("hidden");
-      $("admin-app-shell")?.classList.remove("hidden");
-
       await resolveUserRoleAndProfile(user);
       applyRoleUIVisibility();
 
-      await Promise.allSettled([
+      $("auth-screen")?.classList.add("hidden");
+      $("admin-app-shell")?.classList.remove("hidden");
+
+      const tasks = [
         fetchGlobalSettings(),
         fetchAdminCategories(),
         fetchAdminStaffAndKyc(),
-        fetchAdminPosts(),
-        fetchAdminAds()
-      ]);
+        fetchAdminPosts()
+      ];
+
+      if (hasMinRole("manager")) {
+        tasks.push(fetchAdminAds());
+      }
+
+      await Promise.allSettled(tasks);
     } else {
       currentUser = null;
       currentStaffProfile = null;
+      currentRole = "writer";
       $("admin-app-shell")?.classList.add("hidden");
       $("auth-screen")?.classList.remove("hidden");
     }
